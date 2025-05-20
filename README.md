@@ -2,3 +2,5 @@ this is a website that we are making for our friend adrianna. we're making her a
 the HTML language
 
 first, made the home page and about page, linked them to each other
+
+made the booking page and linked that to the home page
