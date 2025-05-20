@@ -4,3 +4,5 @@ the HTML language
 first, made the home page and about page, linked them to each other
 
 made the booking page and linked that to the home page
+
+linked all the made pages together
