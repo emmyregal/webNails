@@ -8,14 +8,23 @@ function getName() {
 
     //temp alerts to make sure its working
     alert("Name entered: " + name);
+
+    return name;
 }
 
 function getPhoneNumber() {
     const phoneNumber =document.getElementById("phoneNumber").value;
     if (!/^\d{10}$/.test(phoneNumber)) {
-        alert("Please enter a valid 10-digit phone number");
+        alert("please make sure you've entered ONLY 10 digits");
         return;
     }
 
     alert("Phone number entered: " + phoneNumber);
+
+    return phoneNumber;
+}
+
+function addToData(name, phoneNumber) {
+    //look thru whole file to see if name and phonenumber are unique
+    //if so, add to file in a new line
 }
