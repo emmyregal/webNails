@@ -2,7 +2,12 @@ How 2 set up:
 
 download node.js: https://nodejs.org/en
 
-(auto-generated)
+run the command: npm install once in project directory 
+
+to view the app, run the command: npm run dev and go to local host in browser (as stated below)
+
+(below is auto-generated)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
