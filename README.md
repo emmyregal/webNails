@@ -1,3 +1,8 @@
+How 2 set up:
+
+download node.js: https://nodejs.org/en
+
+(auto-generated)
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
