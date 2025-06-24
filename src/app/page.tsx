@@ -14,26 +14,20 @@ export default function Home() {
       <Box marginTop={4}>
         <Grid container spacing={5}>
           <Grid size={6} >
-            <Paper elevation={4} sx={{height: '125%', backgroundColor: '#f5f4f0'}}>
+            <Paper elevation={4} sx={{height: '100%', backgroundColor: '#f5f4f0'}}>
                 <Box justifyContent={'center'} alignItems="center" display="flex" marginBottom={5}>
               <QuiltedImageList/>
               </Box>
             </Paper>
           </Grid>
           <Grid size={6} >
-            <Paper elevation={4} sx={{height: '125%', backgroundColor: '#f5f4f0'}}>
-              <Box justifyContent={'center'} alignItems="center" display="flex" marginBottom={5}>
-                <Stack>
+            <Paper elevation={4} sx={{height: '100%', backgroundColor: '#f5f4f0'}}>
+                <Stack direction='column' justifyContent='center' alignItems='center' display='flex'>
                   <Typography sx={{textAlign: 'center'}}>Been here before? Log in here: </Typography>
                   <Button variant="outlined" sx={{justifyContent: 'center'}}>Log in</Button>
-                </Stack>
-              </Box>
-              <Box justifyContent={'center'} alignItems="center" display="flex">
-                <Stack>
                   <Typography sx={{textAlign: 'center'}}>New here? Sign up for an account: </Typography>
                   <Button variant="outlined" sx={{justifyContent: 'center'}}>Sign up</Button>
-                </Stack>
-              </Box>
+                  </Stack>
             </Paper>
           </Grid>
         </Grid>

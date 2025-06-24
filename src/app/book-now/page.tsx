@@ -6,30 +6,41 @@ import Grid from '@mui/material/Grid';
 import Calandar from '../components/date-time-picker';
 import TypeSelect from '../components/selector';
 import { TextField } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+
 
 
 
 export default function Booking() {
     return (
         <Container maxWidth="lg">
-            <Typography marginTop={8} fontSize={20}>
+            <Typography marginTop={8} marginBottom={4} fontSize={20}>
                 Booking
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid size={4}>
-                    <Calandar />
-                </Grid>
-                <Grid size={4}>
-                    <TypeSelect />
-                </Grid>
-                <Grid size={4}>
-                        <TextField
-                            id="filled-multiline-flexible"
-                            label="Multiline"
-                            multiline
-                            maxRows={8}
-                            variant="filled"
-                        />
+                    <Stack direction={'column'} spacing={3} display={'flex'}>
+                        <Box>
+                            <Typography marginBottom={1}>Choose your appointment date and time</Typography>
+                            <Calandar />
+                        </Box>
+                        <Box>
+                            <Typography marginBottom={1}>Choose your type of nails</Typography>
+                            <TypeSelect />
+                        </Box>
+                       
+                       <Box width={'fill'}>
+                            <Typography  marginBottom={1}>Add any additional comments</Typography>
+                            <TextField
+                                id="filled-multiline-flexible"
+                                label="Comments"
+                                multiline
+                                maxRows={8}
+                                variant="filled"
+                            />
+                        </Box>
+                    </Stack>
                 </Grid>
             </Grid>
         </Container>

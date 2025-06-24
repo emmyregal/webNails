@@ -7,7 +7,7 @@ export default function Calandar() {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DateTimePicker']}>
-                <DateTimePicker label="Choose your appointment date and time" />
+                <DateTimePicker label="Choose date & time" />
             </DemoContainer>
         </LocalizationProvider>
     )
