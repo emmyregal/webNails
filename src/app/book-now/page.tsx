@@ -8,11 +8,25 @@ import TypeSelect from '../components/selector';
 import { TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import { useState } from 'react';
 
 
 
 
 export default function Booking() {
+    const typeDurations = {
+        acrylic: 2,  //2 hour time period for acrylic set 
+        gel: 1.5, // 1.5 hour time slot for gel set 
+    };
+
+    const [selectedType, setSelectedType] = useState('acrylic');
+
+    //changes the type
+    const handleTypeChange = (newType: string) => {
+        setSelectedType(newType);
+    };
+
+
     return (
         <Container maxWidth="lg">
             <Typography marginTop={8} marginBottom={4} fontSize={20}>
@@ -27,7 +41,7 @@ export default function Booking() {
                         </Box>
                         <Box>
                             <Typography marginBottom={1}>Choose your type of nails</Typography>
-                            <TypeSelect />
+                            <TypeSelect onChange={handleTypeChange} />
                         </Box>
                        
                        <Box width={'fill'}>
