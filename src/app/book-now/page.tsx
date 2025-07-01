@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import { useState } from 'react';
 
 
-
+export type NailType = 'acrylic' | 'gel';
 
 export default function Booking() {
     const typeDurations = {
@@ -19,10 +19,10 @@ export default function Booking() {
         gel: 1.5, // 1.5 hour time slot for gel set 
     };
 
-    const [selectedType, setSelectedType] = useState('acrylic');
+    const [selectedType, setSelectedType] = useState<keyof typeof typeDurations>('acrylic');
 
     //changes the type
-    const handleTypeChange = (newType: string) => {
+    const handleTypeChange = (newType: keyof typeof typeDurations) => {
         setSelectedType(newType);
     };
 
@@ -37,7 +37,7 @@ export default function Booking() {
                     <Stack direction={'column'} spacing={3} display={'flex'}>
                         <Box>
                             <Typography marginBottom={1}>Choose your appointment date and time</Typography>
-                            <Calandar />
+                            <Calandar duration={typeDurations[selectedType]}/>
                         </Box>
                         <Box>
                             <Typography marginBottom={1}>Choose your type of nails</Typography>
