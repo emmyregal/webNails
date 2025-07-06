@@ -7,8 +7,8 @@ import Image from "next/image";
 //5 dollar late fee if ur >10 mins late
 //if ur more than 10 mins late w no notice ur appointment is cancelled 
 //24 hour notice to reschudle/cancel
-export default function Home() {
+export default function About() {
   return (
-    <h1>Home</h1>
+    <h1>about</h1>
   );
 }
