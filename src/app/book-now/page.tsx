@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Calandar from '../components/date-time-picker';
 import TypeSelect from '../components/selector';
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
@@ -45,7 +45,7 @@ export default function Booking() {
                         </Box>
                        
                        <Box width={'fill'}>
-                            <Typography  marginBottom={1}>Add any additional comments</Typography>
+                            <Typography  marginBottom={1}>additional comments</Typography>
                             <TextField
                                 id="filled-multiline-flexible"
                                 label="Comments"
@@ -54,6 +54,28 @@ export default function Booking() {
                                 variant="filled"
                             />
                         </Box>
+                        <Box>
+    <Typography marginTop={2} marginBottom={1}>upload inspo pics</Typography>
+    <Button
+        variant="outlined"
+        component="label"
+    >
+        Upload File
+        <input
+            type="file"
+            accept="image/*"
+            hidden
+            multiple // mult pics if needed
+            onChange={(e) => {
+                const files = e.target.files;
+                // handle file upload logic here
+                console.log(files);
+            }}
+        />
+    </Button>
+</Box>
+                        <Button variant="outlined" sx={{justifyContent: 'center'}}>Submit</Button>
+
                     </Stack>
                 </Grid>
             </Grid>
