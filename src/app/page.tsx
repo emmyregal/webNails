@@ -6,17 +6,21 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import QuiltedImageList from './components/image-list'
+import CarouselComponent from './components/carousel'
 
 
 export default function Home() {
   return (
     <Container maxWidth="xl">
+      
       <Box marginTop={4}>
         <Grid container spacing={5}>
           <Grid size={6} >
             <Paper elevation={4} sx={{height: '100%', backgroundColor: '#f5f4f0'}}>
+              <CarouselComponent />
                 <Box justifyContent={'center'} alignItems="center" display="flex" marginBottom={5}>
-              <QuiltedImageList/>
+              {/* <QuiltedImageList/> */}
+              
               </Box>
             </Paper>
           </Grid>
