@@ -36,12 +36,12 @@ export default function Booking() {
                 <Grid size={4}>
                     <Stack direction={'column'} spacing={3} display={'flex'}>
                         <Box>
-                            <Typography marginBottom={1}>Choose your appointment date and time</Typography>
-                            <Calandar duration={typeDurations[selectedType]}/>
-                        </Box>
-                        <Box>
                             <Typography marginBottom={1}>Choose your type of nails</Typography>
                             <TypeSelect onChange={handleTypeChange} />
+                        </Box>
+                        <Box>
+                            <Typography marginBottom={1}>Choose your appointment date and time</Typography>
+                            <Calandar duration={typeDurations[selectedType]}/>
                         </Box>
                        
                        <Box width={'fill'}>
