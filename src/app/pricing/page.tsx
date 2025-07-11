@@ -9,6 +9,11 @@ import { Button, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
+import { PriceCard1 } from '../components/card';
+import { PriceCard2 } from '../components/card';
+import { PriceCard3 } from '../components/card';
+import { PriceCard4 } from '../components/card';
+import PriceGrid from '../components/grid';
 
 //60 for short
 //65 for medium 
@@ -19,6 +24,6 @@ import { useState } from 'react';
 //10 deposit required
 export default function Pricing() {
     return (
-        <h1>pricing</h1>
+        <PriceGrid />
     );
 }
