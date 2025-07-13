@@ -15,7 +15,31 @@ const bull = (
   </Box>
 );
 
-export default function PriceCard1() {
+export default function card() {
+    return (
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+            </Typography>
+            <Typography variant="h5" component="div">
+              short length
+            </Typography>
+            <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$60</Typography>
+            <Typography variant="body2">
+              short is considered to be no extra length 
+              <br />
+              {'no design fee'}
+              {'up to 2 charms before an extra fee'}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
+      );
+}
+
+export function PriceCard1() {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>

@@ -9,10 +9,7 @@ import { Button, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
-import { PriceCard1 } from '../components/card';
-import { PriceCard2 } from '../components/card';
-import { PriceCard3 } from '../components/card';
-import { PriceCard4 } from '../components/card';
+import { PriceCard1, PriceCard2, PriceCard3, PriceCard4 } from '../components/card';
 import PriceGrid from '../components/grid';
 
 //60 for short

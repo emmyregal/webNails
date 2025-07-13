@@ -3,10 +3,8 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import PriceCard1 from './card';
-import PriceCard2 from './card';
-import PriceCard3 from './card';
-import PriceCard4 from './card';
+import { PriceCard1, PriceCard2, PriceCard3, PriceCard4 } from '../components/card';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#E792CB',
