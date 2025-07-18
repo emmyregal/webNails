@@ -12,9 +12,6 @@ import { useState } from 'react';
 import { PriceCard1, PriceCard2, PriceCard3, PriceCard4 } from '../components/card';
 import PriceGrid from '../components/grid';
 
-//60 for short
-//65 for medium 
-//70 for long
 //no design fee
 //5 dollars for >2 charms
 //45 for gel polish w builder gel

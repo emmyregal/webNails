@@ -26,7 +26,7 @@ export default function card() {
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$60</Typography>
             <Typography variant="body2">
-              short is considered to be no extra length 
+              no added length 
               <br />
               {'no design fee'}
               {'up to 2 charms before an extra fee'}
@@ -50,15 +50,16 @@ export function PriceCard1() {
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$60</Typography>
         <Typography variant="body2">
-          short is considered to be no extra length 
+          no added length 
           <br />
-          {'no design fee'}
-          {'up to 2 charms before an extra fee'}
+          {bull}no design fee
+          <br />
+          {bull}up to 2 charms before an extra fee
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
+          <Button size="small">see examples</Button>
+        </CardActions>
     </Card>
   );
 }
@@ -74,13 +75,15 @@ export function PriceCard2() {
           </Typography>
           <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$65</Typography>
           <Typography variant="body2">
-            well meaning and kindly.
+            added length
             <br />
-            {'"a benevolent smile"'}
-          </Typography>
+            {bull}no design fee
+            <br />
+            {bull}up to 2 charms before an extra fee
+        </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small">see examples</Button>
         </CardActions>
       </Card>
     );
@@ -90,21 +93,20 @@ export function PriceCard3() {
     return (
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-            Word of the Day
-          </Typography>
           <Typography variant="h5" component="div">
-            be{bull}nev{bull}o{bull}lent
+            long length
           </Typography>
-          <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>adjective</Typography>
+          <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$70</Typography>
           <Typography variant="body2">
-            well meaning and kindly.
+            extra added length
             <br />
-            {'"a benevolent smile"'}
+            {bull}no design fee
+            <br />
+            {bull}up to 2 charms before an extra fee
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small">see examples</Button>
         </CardActions>
       </Card>
     );
@@ -114,21 +116,20 @@ export function PriceCard4() {
     return (
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-            Word of the Day
-          </Typography>
           <Typography variant="h5" component="div">
-            be{bull}nev{bull}o{bull}lent
+            builder gel
           </Typography>
-          <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>adjective</Typography>
+          <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$45</Typography>
           <Typography variant="body2">
-            well meaning and kindly.
+            gel polish and no added length
             <br />
-            {'"a benevolent smile"'}
+            {bull}no design fee
+            <br />
+            {bull}up to 2 charms before an extra fee
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small">see examples</Button>
         </CardActions>
       </Card>
     );
