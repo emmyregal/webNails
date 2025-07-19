@@ -25,53 +25,21 @@ export default function ImgList() {
   }
 
 const itemData = [
-  {
-    img: '/pics/n1.jpg',
-  },
-  {
-    img: '/pics/n2.jpg',
-  },
-  {
-    img: '/pics/n3.jpg',
-  },
-  {
-    img: '/pics/n4.jpg',
-  },
-  {
-    img: '/pics/n5.jpg',
-  },
-  {
-    img: '/pics/n6.jpg',
-  },
-  {
-    img: '/pics/n7.jpg',
-  },
-  {
-    img: '/pics/n8.jpg',
-  },
-  {
-    img: '/pics/n9.jpg',
-  },
-  {
-    img: '/pics/n10.jpg',
-  },
-  {
-    img: '/pics/n11.jpg',
-  },
-  {
-    img: '/pics/n12.jpg',
-  },
-  {
-    img: '/pics/n13.jpg',
-  },
-  {
-    img: '/pics/n14.jpg',
-  },
-  {
-    img: '/pics/n15.jpg',
-  },
-  {
-    img: '/pics/n16.jpg',
-  },
+  {img: '/pics/n1.jpg'},
+  {img: '/pics/n2.jpg'},
+  {img: '/pics/n3.jpg'},
+  {img: '/pics/n4.jpg'},
+  {img: '/pics/n5.jpg'},
+  {img: '/pics/n6.jpg'},
+  {img: '/pics/n7.jpg'},
+  {img: '/pics/n8.jpg'},
+  {img: '/pics/n9.jpg'},
+  {img: '/pics/n10.jpg'},
+  {img: '/pics/n11.jpg'},
+  {img: '/pics/n12.jpg'},
+  {img: '/pics/n13.jpg'},
+  {img: '/pics/n14.jpg'},
+  {img: '/pics/n15.jpg'},
+  {img: '/pics/n16.jpg'},
 
 ];
