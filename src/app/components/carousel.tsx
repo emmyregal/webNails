@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
-import { Paper, Button } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import Image from 'next/image'
 
 
@@ -40,18 +40,21 @@ const items = [
 export default function CarouselComponent() {
 
     return (
+        <Paper sx={{height: '100%'}}>
         <Carousel>
             {
                 items.map((item, i) => (
-                    <Image
-                        src={item.href}
-                        width={500}
-                        height={500}
-                        alt={item.alt}
-                    />
+                    <Box justifyContent={'center'} alignItems="center" display="flex" width={'100%'}>
+                        <Image
+                            src={item.href}
+                            width={500}
+                            height={500}
+                            alt={item.alt}
+                        />
+                    </Box>
                 ))
-
             }
         </Carousel>
+        </Paper>
     )
 }
