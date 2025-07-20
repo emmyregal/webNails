@@ -8,31 +8,31 @@ import Image from 'next/image'
 
 const items = [
     {
-        href: '/pics/n1.png',
+        href: '/pics/n1.jpg',
         alt: 'nails 1'
     },
     {
-        href: '/pics/n2.png',
+        href: '/pics/n2.jpg',
         alt: 'nails 2'
     },
     {
-        href: '/pics/n3.png',
+        href: '/pics/n3.jpg',
         alt: 'nails 3'
     },
     {
-        href: '/pics/n4.png',
+        href: '/pics/n4.jpg',
         alt: 'nails 4'
     },
     {
-        href: '/pics/n5.png',
+        href: '/pics/n5.jpg',
         alt: 'nails 5'
     },
     {
-        href: '/pics/n6.png',
+        href: '/pics/n6.jpg',
         alt: 'nails 6'
     },
     {
-        href: '/pics/n7.png',
+        href: '/pics/n7.jpg',
         alt: 'nails 7'
     },
 ]
