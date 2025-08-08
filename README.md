@@ -1,3 +1,65 @@
+## Database
+
+### Install dependencies:
+Run the following in a terminal in your directory that contains package.json (the directory w/ all the code):
+
+`npm i prisma --legacy-peer-deps`
+
+`npm i @prisma/client --legacy-peer-deps`
+
+you may or may not need the `--legacy-peer-deps`, I needed them and I believe some version issues exist is the carosel component that I'll take a look at. 
+
+#### After those are installed:
+Create a file called .env with the following one line:
+
+`DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres"`
+
+This is the URL that will connect to a local running instance of our database. 
+
+#### Prisma:
+Prisma is the ORM we will be using. ORM means it's pretty much just a nice way to interact with the database.
+Here are the getting started docs (I've done up through step 2.3): [Prisma Docs](https://www.prisma.io/docs/guides/nextjs)
+
+Up to step 2.3 (what I've done so far): Created the initial schema. You'll find it under prisma/schema.prisma. All thats there so far are the User and Appointment tables (tables are synonomous with models). We can add/change these later.
+
+#### Postgres:
+Prisma is just a way to interact with the database, what about the database itself? Enter: [PostgreSQL](https://www.postgresql.org/)
+
+Set up:
+
+To spin up a local postgresql instance, do the following:
+
++ Open any terminal and make sure you have docker running on your machine (the database will live in a docker container while it is local). 
++ Then run the following commands (taken from [docker hub btw](https://hub.docker.com/_/postgres)):
+
+`docker pull postgres:14.181`
+
+`docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres`
+
+
+After you run these you will have a local postgres instance set up!
+
+To see the database, install the PostgreSQL VS Code Extention (the one authored by Database Client)
+
+After installing the extention you should see a new database tab open on your left side menu in VS Code. 
++ Click that new database tab. 
++ You should see an option for 'Create Connection' . Click create a connection. 
++ Make sure PostgresSQL is selected as the server type. You can leave all of the defaults.
++ Type 'mysecretpassword' for the password. 
++ Then hit create a connection and it should be successful (lmk if this doesnt work cuz it can get weird sometimes)
+
+#### Adding tables
+
+To add the tables into postgres run the following in a terminal cd'd into the directory with all of the code in it:
+
+`npx prisma migrate dev --name init`
+
+Then, go back to the database tab, open things up until you find the 'Tables' tab. Right click on Tables and hit 'Refresh'. You should now be able to see the tables. 
+
+Thats all for now. Its a lengthy set-up process so lmk if anything goes wrong. Now that its set up we can start using it our code, give me a little more time to work through that next part. 
+
+## Init setup:
+
 How 2 set up:
 
 download node.js: https://nodejs.org/en
