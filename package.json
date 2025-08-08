@@ -15,8 +15,10 @@
     "@mui/material": "^7.2.0",
     "@mui/styles": "^6.5.0",
     "@mui/x-date-pickers": "^8.5.2",
+    "@prisma/client": "^6.13.0",
     "dayjs": "^1.11.13",
     "next": "15.3.3",
+    "prisma": "^6.13.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-material-ui-carousel": "^3.4.2"
