@@ -32,9 +32,9 @@ To spin up a local postgresql instance, do the following:
 + Open any terminal and make sure you have docker running on your machine (the database will live in a docker container while it is local). 
 + Then run the following commands (taken from [docker hub btw](https://hub.docker.com/_/postgres)):
 
-`docker pull postgres:14.181`
+`docker pull postgres:14.181` or just `docker pull postgres` for mac users
 
-`docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres`
+`docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres` (wow great password)
 
 
 After you run these you will have a local postgres instance set up!
@@ -51,12 +51,15 @@ After installing the extention you should see a new database tab open on your le
 #### Adding tables
 
 To add the tables into postgres run the following in a terminal cd'd into the directory with all of the code in it:
+(`cd nailsWeb`, `cd prisma`) (needs to find ur schema.prisma file)
 
 `npx prisma migrate dev --name init`
 
 Then, go back to the database tab, open things up until you find the 'Tables' tab. Right click on Tables and hit 'Refresh'. You should now be able to see the tables. 
 
 Thats all for now. Its a lengthy set-up process so lmk if anything goes wrong. Now that its set up we can start using it our code, give me a little more time to work through that next part. 
+
+I DID IT
 
 ## Init setup:
 
@@ -106,3 +109,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+for line 15 step, do i want that in any specific folder inside of our nailWeb folder? or is the .env going to be dependent from our code and we can send documents in via web?
+anything for the prism to install on my local machine?
+
+line 53, for a what code should i be cding to (nails web or database)
+
+bro im lowkey baked rn so idk if that makes sense
+
+okay, ignore prev but i got all the way up to line 70. i downloaded the node.js and i did everything above that (was tricky but i def got it all done in the right place via trial and error)
