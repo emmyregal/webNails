@@ -110,13 +110,13 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+finished 2.4 
+added seeds/example ppl and appointments 
+npm install --save-dev ts-node --legacy-peer-deps
+npx prisma generate   
+npx prisma db seed 
+npx prisma studio //lets you see all the appountments in a browser
 
-
-for line 15 step, do i want that in any specific folder inside of our nailWeb folder? or is the .env going to be dependent from our code and we can send documents in via web?
-anything for the prism to install on my local machine?
-
-line 53, for a what code should i be cding to (nails web or database)
-
-bro im lowkey baked rn so idk if that makes sense
-
-okay, ignore prev but i got all the way up to line 70. i downloaded the node.js and i did everything above that (was tricky but i def got it all done in the right place via trial and error)
+i changed the json file to include the prisma seed
+made a seed file w random people as examples just like it said in 2.4
+updated the schema so it was accurately reflecting appointments 
