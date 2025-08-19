@@ -1,4 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { alpha } from '@mui/material';
+
 
 const logoGrey = '#f5f4f0'
 const logoLightPink = '#f5f4f0'
@@ -20,7 +22,24 @@ const theme = createTheme({
             root: {
                 color: logoPink
             }
-        }
+        },
+        variants: [
+          {
+            props: {className: 'header'},
+            style: {
+              marginBottom: 4,
+              fontSize: 18
+            }
+          },
+          {
+            props: {className: 'subHeader'},
+            style: {
+              marginBottom: 12,
+              fontSize: 15,
+              color: alpha(logoPink, 0.65)
+            }
+          }
+        ]
     }
   },
   palette: {
