@@ -36,14 +36,16 @@ export default function Booking() {
 
     return (
         <Container maxWidth="lg">
-            <Typography marginTop={4} fontSize={23}>
+            <Typography marginTop={4} fontSize={23} fontFamily={"cursive"}>
                 Enter Booking Details
             </Typography>
             <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2, mb: 4 }} />
 
             <Stack direction={'column'} spacing={4} display={'flex'} >
                 <Box maxWidth={400}>
-                    <Typography className='header'>What type of nails?</Typography>
+                    <Typography 
+                        fontFamily={"Trattatello"} 
+                        className='header'>What type of nails?</Typography>
                     <Typography className='subHeader'>
                         Enter the type of nails you are looking for here
                     </Typography>
