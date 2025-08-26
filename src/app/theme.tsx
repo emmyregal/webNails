@@ -28,13 +28,14 @@ const theme = createTheme({
             props: {className: 'header'},
             style: {
               marginBottom: 4,
+              marginTop: 30,
               fontSize: 18
             }
           },
           {
             props: {className: 'subHeader'},
             style: {
-              marginBottom: 12,
+              marginBottom: 15,
               fontSize: 15,
               color: alpha(logoPink, 0.65)
             }

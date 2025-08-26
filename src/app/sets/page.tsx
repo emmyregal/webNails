@@ -14,7 +14,7 @@ import ImgList from "../components/img-grid"
 export default function Sets() {
     return (
         <Container sx={{ mt: 4 }}>
-            <Typography variant="standard" gutterBottom>
+            <Typography gutterBottom>
                 Sets
             </Typography>
             <ImgList />

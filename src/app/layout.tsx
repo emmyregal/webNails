@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -32,12 +32,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+
         <ThemeProvider theme={theme}>
-          <ResponsiveAppBar />
-          {children}
+          <div>
+            <ResponsiveAppBar />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

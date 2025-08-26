@@ -1,36 +1,74 @@
-"use client"
-
+'use client'
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Calandar from '../components/date-time-picker';
 import TypeSelect from '../components/selector';
-import { Button, CardActionArea, Divider, TextField } from '@mui/material';
+import { Button, CardActionArea, Divider, TextField, FormHelperText } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { alpha } from '@mui/material';
 import theme from '../theme';
 
+import * as React from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 //todo: 
 // input validation
 // submitting actually submits & sends to db
 // times are blocked out on the calanadar
 
+type NailType = 'acrylic' | 'gel';
 
-export type NailType = 'acrylic' | 'gel';
 
 export default function Booking() {
+    // const [selectedType, setSelectedType] = useState<NailType | "">('');
+    const [selectedType, setSelectedType] = useState('');
+
+    const [inputValid, setInputValid] = useState<boolean>(false);
+
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        validateInput();
+        const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries((formData as any).entries());
+        console.log(`form json: ${JSON.stringify(formJson)}`)
+        const email = formJson.select;
+        console.log(email);
+        handleClose();
+    };
+
+    const handleClose = () => {
+        // setOpen(false);
+    };
+
+    // const handleChange = (event: SelectChangeEvent) => {
+    //     const value = event.target.value as NailType;
+    //     setSelectedType(value);
+    // };
+
+    const validateInput = () => {
+        if (selectedType.length == 0) {
+            console.log(`selected type: ${selectedType}`)
+            setInputValid(true)
+        } else {
+            setInputValid(false)
+        }
+    }
+
     const typeDurations = {
         acrylic: 2,  //2 hour time period for acrylic set 
         gel: 1.5, // 1.5 hour time slot for gel set 
     };
 
-    const [selectedType, setSelectedType] = useState<keyof typeof typeDurations>('acrylic');
-
     //changes the type
-    const handleTypeChange = (newType: keyof typeof typeDurations) => {
-        setSelectedType(newType);
+    const handleTypeChange = (event: SelectChangeEvent) => {
+        setSelectedType(event.target.value as string);
     };
 
 
@@ -39,71 +77,104 @@ export default function Booking() {
             <Typography marginTop={4} fontSize={23} fontFamily={"cursive"}>
                 Enter Booking Details
             </Typography>
-            <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2, mb: 4 }} />
+            <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2 }} />
 
-            <Stack direction={'column'} spacing={4} display={'flex'} >
-                <Box maxWidth={400}>
-                    <Typography 
-                        fontFamily={"Trattatello"} 
-                        className='header'>What type of nails?</Typography>
-                    <Typography className='subHeader'>
-                        Enter the type of nails you are looking for here
-                    </Typography>
-                    <TypeSelect onChange={handleTypeChange} />
-                </Box>
-                <Box maxWidth={400}>
-                    <Typography className='header'>When will your appointment be?</Typography>
-                    <Typography className='subHeader'>
-                        Enter your appointment date and time here
-                    </Typography>
-                    <Calandar duration={typeDurations[selectedType]} />
-                </Box>
+            <Box>
+                <Stack direction={'column'} spacing={4} display={'flex'} >
+                    <Box maxWidth={400}>
+                        <Typography className='header'>What type of nails?</Typography>
+                        <Typography className='subHeader'>
+                            Enter the type of nails you are looking for here
+                        </Typography>
+                        {/* <TypeSelect onChange={handleTypeChange} /> */}
+                        <Box sx={{ minWidth: 120 }}>
+                            <form onSubmit={handleSubmit} id="booking-form">
+                                <FormControl fullWidth>
+                                    <InputLabel sx={{
+                                        color: inputValid ? '#d32f2f' : 'rgba(0, 0, 0, 0.6)',
+                                        '&.Mui-focused': {
+                                            color: inputValid ? '#d32f2f' : 'primary.main',
+                                        }
+                                    }} id="nail-type-label">Type</InputLabel>
+                                    <Select
+                                        labelId="nail-type-label"
+                                        id="nail-type-select"
+                                        value={selectedType}
+                                        label="Type"
+                                        onChange={handleTypeChange}
+                                        error={inputValid}
+                                        name="select"
+                                        fullWidth
+                                    >
+                                        <MenuItem value="gel">Gel</MenuItem>
+                                        <MenuItem value="acrylic">Acrylic</MenuItem>
+                                    </Select>
+                                    {inputValid && <FormHelperText sx={{ color: '#d32f2f' }}>This field is required</FormHelperText>}
+                                </FormControl>
+                            </form>
+                        </Box>
+                    </Box>
+                    <Box maxWidth={400}>
+                        <Typography className='header'>When will your appointment be?</Typography>
+                        <Typography className='subHeader'>
+                            Enter your appointment date and time here
+                        </Typography>
+                        {/* <Calandar/> */}
+                        {/* <Calandar duration={typeDurations[selectedType]} /> */}
+                    </Box>
 
-                <Box maxWidth={400}>
-                    <Typography className='header'>Additional comments</Typography>
-                    <Typography className='subHeader'>
-                        Leave any comments about your appointment here
-                    </Typography>
-                    <TextField
-                        id="filled-multiline-flexible"
-                        label="Comments"
-                        multiline
-                        maxRows={8}
-                        variant="filled"
-                        fullWidth
-                    />
-                </Box>
-                <Box>
-                    <Typography className='header'>Inspiration</Typography>
-                    <Typography className='subHeader'>
-                        Upload any inspo pics here
-                    </Typography>
-                    <Button
-                        variant="outlined"
-                        component="label"
-                    >
-                        Upload File
-                        <input
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            multiple // mult pics if needed
-                            onChange={(e) => {
-                                const files = e.target.files;
-                                // handle file upload logic here
-                                console.log(files);
-                            }}
+                    <Box maxWidth={400}>
+                        <Typography className='header'>Additional comments</Typography>
+                        <Typography className='subHeader'>
+                            Leave any comments about your appointment here
+                        </Typography>
+                        <TextField
+                            id="filled-multiline-flexible"
+                            label="Comments"
+                            multiline
+                            maxRows={8}
+                            variant="filled"
+                            fullWidth
                         />
-                    </Button>
-                </Box>
+                    </Box>
+                    <Box>
+                        <Typography className='header'>Inspiration</Typography>
+                        <Typography className='subHeader'>
+                            Upload any inspo pics here
+                        </Typography>
+                        <Button
+                            variant="outlined"
+                            component="label"
+                        >
+                            Upload File
+                            <input
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                multiple // mult pics if needed
+                                onChange={(e) => {
+                                    const files = e.target.files;
+                                    // handle file upload logic here
+                                    console.log(files);
+                                }}
+                            />
+                        </Button>
+                    </Box>
+                </Stack>
                 <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2, mb: 4 }} />
                 <Box maxWidth={400}>
+
                     {/* make this button look differnt */}
-                    <Button variant="outlined" sx={{ justifyContent: 'center' }}>Book Appointment</Button>
+                    <Button type="submit" form="booking-form" variant="contained" sx={{ justifyContent: 'center' }}>Book Appointment</Button>
                 </Box>
-            </Stack>
+
+
+            </Box>
         </Container>
     );
+
 }
 
 // want to add a section at the bottom of everypage w adriana and dev info
+
+
