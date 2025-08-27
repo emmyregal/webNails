@@ -17,6 +17,38 @@ const theme = createTheme({
         }
       }
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'anti',
+          fontWeight: 800
+        }
+      }
+    },  
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'anti',
+          fontWeight: 800,
+        }
+      }
+    },  
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'anti',
+          fontWeight: 800,
+        }
+      }
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'anti',
+          fontWeight: 800,
+        }
+      }
+    },    
     MuiTypography: {
         styleOverrides: {
             root: {
@@ -47,6 +79,7 @@ const theme = createTheme({
             props: {className: 'subHeader'},
             style: {
               fontFamily: 'anti',
+              fontWeight: 800,
               marginBottom: 15,
               fontSize: 15,
               color: alpha(logoPink, 0.65)
