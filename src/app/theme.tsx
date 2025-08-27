@@ -20,7 +20,7 @@ const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          fontFamily: 'anti',
+          fontFamily: 'sans',
           fontWeight: 800
         }
       }
@@ -28,7 +28,7 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          fontFamily: 'anti',
+          fontFamily: 'sans',
           fontWeight: 800,
         }
       }
@@ -36,7 +36,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: 'anti',
+          fontFamily: 'sans',
           fontWeight: 800,
         }
       }
@@ -44,7 +44,7 @@ const theme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          fontFamily: 'anti',
+          fontFamily: 'sans',
           fontWeight: 800,
         }
       }
@@ -78,7 +78,7 @@ const theme = createTheme({
           {
             props: {className: 'subHeader'},
             style: {
-              fontFamily: 'anti',
+              fontFamily: 'sans',
               fontWeight: 800,
               marginBottom: 15,
               fontSize: 15,
