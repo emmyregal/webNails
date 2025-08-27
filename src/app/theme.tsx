@@ -28,6 +28,7 @@ const theme = createTheme({
           {
             props: {className: 'header'},
             style: {
+              fontFamily: 'starborn',
               marginBottom: 4,
               marginTop: 30,
               fontSize: 18
