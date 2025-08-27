@@ -33,7 +33,7 @@
   src: url(../../public/fonts/anti/antipasto-pro-regular-trial-webfont.woff) format('woff'),
        url(../../public/fonts/anti/antipasto-pro-regular-trial-webfont.woff2) format('woff2');
   font-weight: normal;
-  font-style: normal;
+  font-style: oblique;
 }
 body {
   background: var(--background);
