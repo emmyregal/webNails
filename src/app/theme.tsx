@@ -20,7 +20,8 @@ const theme = createTheme({
     MuiTypography: {
         styleOverrides: {
             root: {
-                color: logoPink
+                color: logoPink,
+                fontFamily: 'starborn'
             }
         },
         variants: [
