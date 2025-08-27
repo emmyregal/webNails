@@ -26,12 +26,21 @@ const theme = createTheme({
         },
         variants: [
           {
-            props: {className: 'header'},
+            props: {className: 'bigHeader'},
             style: {
               fontFamily: 'starborn',
+              // marginBottom: 4,
+              marginTop: 12,
+              fontSize: 30
+            }
+          },
+          {
+            props: {className: 'header'},
+            style: {
+              fontFamily: 'malibu',
               marginBottom: 4,
               marginTop: 30,
-              fontSize: 18
+              fontSize: 18,
             }
           },
           {
