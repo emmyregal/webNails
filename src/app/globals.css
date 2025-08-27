@@ -20,8 +20,8 @@ body {
 
 @font-face {
   font-family: 'starborn';
-  src: url(/fonts/starborn/starborn-webfont.woff) format('woff'), 
-       url(/fonts/starborn/starborn-webfont.woff2) format('woff2');
+  src: url(../../public/fonts/starborn/starborn-webfont.woff) format('woff'), 
+       url(../../public/fonts/starborn/starborn-webfont.woff2) format('woff2');
   font-weight: normal;
   font-style: normal;
 }
