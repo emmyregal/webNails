@@ -3,9 +3,9 @@
 
 
 @font-face {
-    font-family: 'starbornregular';
-    src: url('starborn-webfont.woff2') format('woff2'),
-         url('starborn-webfont.woff') format('woff');
+    font-family: 'starshinesregular';
+    src: url('starshines-webfont.woff2') format('woff2'),
+         url('starshines-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -15,9 +15,9 @@
 
 
 @font-face {
-    font-family: 'starbornregular';
-    src: url('starborn-webfont.woff2') format('woff2'),
-         url('starborn-webfont.woff') format('woff');
+    font-family: 'starshinesregular';
+    src: url('starshines-webfont.woff2') format('woff2'),
+         url('starshines-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
