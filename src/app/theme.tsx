@@ -21,7 +21,7 @@ const theme = createTheme({
         styleOverrides: {
             root: {
                 color: logoPink,
-                fontFamily: 'starborn'
+                fontFamily: 'malibu'
             }
         },
         variants: [
@@ -37,6 +37,7 @@ const theme = createTheme({
           {
             props: {className: 'subHeader'},
             style: {
+              fontFamily: 'malibu',
               marginBottom: 15,
               fontSize: 15,
               color: alpha(logoPink, 0.65)

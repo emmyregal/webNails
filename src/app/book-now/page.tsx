@@ -129,7 +129,7 @@ export default function Booking() {
 
     return (
         <Container maxWidth="lg">
-            <Typography marginTop={4} fontSize={23} fontFamily={"cursive"}>
+            <Typography marginTop={4} fontSize={23}>
                 Enter Booking Details
             </Typography>
             <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2 }} />

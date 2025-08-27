@@ -18,6 +18,12 @@
        url(../../public/fonts/starborn/starborn-webfont.woff2) format('woff2');
   font-weight: normal;
   font-style: normal;
+
+  font-family: 'malibu';
+  srs: url(../../public/fonts/malibu/super_malibu-webfont.woff) format('woff'),
+       url(../../public/fonts/malibu/super_malibu-webfont.woff2) format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
