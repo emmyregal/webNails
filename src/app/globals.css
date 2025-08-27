@@ -12,12 +12,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'starborn';
-}
-
 @font-face {
   font-family: 'starborn';
   src: url(../../public/fonts/starborn/starborn-webfont.woff) format('woff'), 
@@ -25,3 +19,10 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'starborn';
+}
+
