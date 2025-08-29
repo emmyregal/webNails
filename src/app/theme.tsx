@@ -25,6 +25,13 @@ const theme = createTheme({
         }
       }
     },  
+    MuiMenu: {
+      styleOverrides: {
+        root: {
+          color: logoGrey
+        }
+      }
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {

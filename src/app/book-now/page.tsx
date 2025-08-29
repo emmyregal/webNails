@@ -23,6 +23,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import Chip from '@mui/material/Chip';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 //todo: 
@@ -228,7 +229,7 @@ export default function Booking() {
                 <Box maxWidth={400}>
 
                     {/* make this button look differnt */}
-                    <Button type="submit" form="booking-form" variant="contained" sx={{ justifyContent: 'center' }}>Book Appointment</Button>
+                    <Button startIcon= {CheckCircleIcon} type="submit" form="booking-form" variant="contained" sx={{ justifyContent: 'center' }}>Book Appointment</Button>
                 </Box>
 
 
