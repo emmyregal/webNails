@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -13,20 +14,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// One to many relationship: one user can have many appointments : an appointment can only 'belong' to one user
-
-model User {
-  user_id Int @id @default(autoincrement())
-  email String @unique
-  first_name String
-  last_name String
-  Appointments Appointment []
-}
-
 model Appointment {
-  appointment_id Int @id @default(autoincrement())
+  id   String   @id @default(uuid())
   date DateTime
   type String
-  userId Int
-  user User @relation(fields: [userId], references: [user_id])
 }

@@ -24,6 +24,8 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import Chip from '@mui/material/Chip';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { createNewAppt } from '../components/db-calls';
+
 
 
 //todo: 
@@ -41,19 +43,18 @@ export default function Booking() {
     const [inputValid, setInputValid] = useState<boolean>(false);
 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         validateInput();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         console.log(`form json: ${JSON.stringify(formJson)}`)
-        const email = formJson.select;
-        console.log(email);
-        handleClose();
-    };
-
-    const handleClose = () => {
-        // setOpen(false);
+        
+        // const formatedDate = dayjs(formJson.Date).format('YYYY-MM-DDTHH:mm:ss')
+        const formatedDate = new Date(formJson.Date)
+        console.log(`formatted date: ${formatedDate}`)
+        createNewAppt(formatedDate, formJson.Type)
+        
     };
 
 
@@ -107,21 +108,21 @@ export default function Booking() {
         } else {
             return (
                 <div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DateTimePicker']}>
-                        <DateTimePicker
-                            label={`Choose date & time (duration: ${typeDurations[selectedType]} hr)`}
-                            minTime={nineAM}
-                            maxTime={sevenPM}
-                            onChange={(newValue) => setSelectedDate(newValue)}
-                            value={selectedDate}
-                            name='Date'
-                        // disablePast
-                        />
-                    </DemoContainer>
-                </LocalizationProvider>
-                {/* display the date time in a nice way: */}
-                {/* <Chip label={`Chosen Date & Time:`}  /> */} 
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DateTimePicker']}>
+                            <DateTimePicker
+                                label={`Choose date & time (duration: ${typeDurations[selectedType]} hr)`}
+                                minTime={nineAM}
+                                maxTime={sevenPM}
+                                onChange={(newValue) => setSelectedDate(newValue)}
+                                value={selectedDate}
+                                name='Date'
+                            // disablePast
+                            />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    {/* display the date time in a nice way: */}
+                    {/* <Chip label={`Chosen Date & Time:`}  /> */}
                 </div>
             )
         }
@@ -161,7 +162,7 @@ export default function Booking() {
                                         label="Type"
                                         onChange={handleTypeChange}
                                         error={inputValid}
-                                        name="select"
+                                        name="Type"
                                         fullWidth
                                     >
                                         <MenuItem value="gel">Gel</MenuItem>
@@ -182,54 +183,54 @@ export default function Booking() {
 
                             {renderCalandar()}
                         </Box>
-                    
 
-                    <Box maxWidth={400}>
-                        <Typography className='header'>Additional comments</Typography>
-                        <Typography className='subHeader'>
-                            Leave any comments about your appointment here
-                        </Typography>
-                        <TextField
-                            id="filled-multiline-flexible"
-                            label="Comments"
-                            multiline
-                            maxRows={8}
-                            variant="filled"
-                            name="comments"
-                            fullWidth
-                        />
-                    </Box>
-                    <Box>
-                        <Typography className='header'>Inspiration</Typography>
-                        <Typography className='subHeader'>
-                            Upload any inspo pics here
-                        </Typography>
-                        <Button
-                            variant="outlined"
-                            component="label"
-                        >
-                            Upload File
-                            <input
-                                type="file"
-                                accept="image/*"
-                                name="inspo pics"
-                                hidden
-                                multiple // mult pics if needed
-                                onChange={(e) => {
-                                    const files = e.target.files;
-                                    // handle file upload logic here
-                                    console.log(files);
-                                }}
+
+                        <Box maxWidth={400}>
+                            <Typography className='header'>Additional comments</Typography>
+                            <Typography className='subHeader'>
+                                Leave any comments about your appointment here
+                            </Typography>
+                            <TextField
+                                id="filled-multiline-flexible"
+                                label="Comments"
+                                multiline
+                                maxRows={8}
+                                variant="filled"
+                                name="comments"
+                                fullWidth
                             />
-                        </Button>
-                    </Box>
+                        </Box>
+                        <Box>
+                            <Typography className='header'>Inspiration</Typography>
+                            <Typography className='subHeader'>
+                                Upload any inspo pics here
+                            </Typography>
+                            <Button
+                                variant="outlined"
+                                component="label"
+                            >
+                                Upload File
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    name="inspo pics"
+                                    hidden
+                                    multiple // mult pics if needed
+                                    onChange={(e) => {
+                                        const files = e.target.files;
+                                        // handle file upload logic here
+                                        console.log(files);
+                                    }}
+                                />
+                            </Button>
+                        </Box>
                     </form>
                 </Stack>
                 <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2, mb: 4 }} />
                 <Box maxWidth={400}>
 
                     {/* make this button look differnt */}
-                    <Button startIcon= {CheckCircleIcon} type="submit" form="booking-form" variant="contained" sx={{ justifyContent: 'center' }}>Book Appointment</Button>
+                    <Button sx={{ color: alpha('#000000', 0.75) }} endIcon={<CheckCircleIcon />} type="submit" form="booking-form" variant="contained">Book Appointment</Button>
                 </Box>
 
 

@@ -21,7 +21,6 @@ import ProfileMenu from './menu';
 function ResponsiveAppBar() {
   const pages = [{ id: 1, name: 'Book Now', link: '/book-now' },
   { id: 2, name: 'Sets', link: '/sets' },
-  { id: 3, name: 'About', link: '/about' },
   { id: 4, name: 'Pricing', link: '/pricing' }];
 
   return (

@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -18,10 +18,10 @@
     "@mui/material": "^7.2.0",
     "@mui/styles": "^6.5.0",
     "@mui/x-date-pickers": "^8.5.2",
-    "@prisma/client": "^6.13.0",
+    "@prisma/client": "^6.15.0",
+    "@prisma/extension-accelerate": "^2.0.2",
     "dayjs": "^1.11.13",
     "next": "15.3.3",
-    "prisma": "^6.13.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-material-ui-carousel": "^3.4.2"
@@ -31,8 +31,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prisma": "^6.15.0",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.5",
     "typescript": "^5"
   }
 }
