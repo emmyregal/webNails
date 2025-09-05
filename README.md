@@ -1,3 +1,10 @@
+## Next Steps:
++ finish up home page styles ( emmy )
++ finish s3 images ( megan )
++ admin dashboard ( emmy )
++ venmo plugin/captcha - don't send appt to db unless payment is valid ( emmy )
++ block off time availability ( also add input validation for all required fields )
+
 ## Database
 
 ### Install dependencies:
