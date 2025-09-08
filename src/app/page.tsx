@@ -27,10 +27,7 @@ export default function Home() {
           <Grid size={6} >
             <Paper elevation={4} sx={{height: '100%', backgroundColor: '#f5f4f0'}}>
                 <Stack direction='column' justifyContent='center' alignItems='center' display='flex'>
-                  <Typography sx={{textAlign: 'center'}}>Been here before? Log in here: </Typography>
-                  <Button variant="outlined" sx={{justifyContent: 'center'}}>Log in</Button>
-                  <Typography sx={{textAlign: 'center'}}>New here? Sign up for an account: </Typography>
-                  <Button variant="outlined" sx={{justifyContent: 'center'}}>Sign up</Button>
+                  <Typography sx={{textAlign: 'center'}}>Who is Adrianna?: </Typography>
                   </Stack>
             </Paper>
           </Grid>
