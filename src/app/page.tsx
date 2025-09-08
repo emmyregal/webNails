@@ -27,7 +27,7 @@ export default function Home() {
           <Grid size={6} >
             <Paper elevation={4} sx={{height: '100%', backgroundColor: '#f5f4f0'}}>
                 <Stack direction='column' justifyContent='center' alignItems='center' display='flex'>
-                  <Typography sx={{textAlign: 'center'}}>Who is Adrianna?: </Typography>
+                  <Typography sx={{textAlign: 'center'}}>Who is Adrianna? </Typography>
                   </Stack>
             </Paper>
           </Grid>
