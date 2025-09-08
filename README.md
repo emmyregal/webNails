@@ -127,3 +127,8 @@ npx prisma studio //lets you see all the appountments in a browser
 i changed the json file to include the prisma seed
 made a seed file w random people as examples just like it said in 2.4
 updated the schema so it was accurately reflecting appointments 
+
+installing venmo "captcha". do this in ur terminal 
+npm install @paypal/react-paypal-js
+
+MAKE ADRIANA SET UP PAYPAL ACC 
