@@ -10,6 +10,15 @@
 
 ## Database
 
+**you no longer need the docker containter for the db, were using an instance hosted by prisma
+
+### Using the DB:
+After any changes to the schema:
++ npx migrate dev --name {the name of the migration}
+
+To view the DB: 
++ npx prisma studio
+
 ### Install dependencies:
 Run the following in a terminal in your directory that contains package.json (the directory w/ all the code):
 

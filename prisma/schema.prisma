@@ -20,6 +20,6 @@ model Appointment {
   type String
   comments String
   phone_number String
-  inspo_pics Bytes[]
+  inspo_pics String[]
   name String? 
 }
