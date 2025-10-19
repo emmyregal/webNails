@@ -18,4 +18,8 @@ model Appointment {
   id   String   @id @default(uuid())
   date DateTime
   type String
+  comments String
+  phone_number String
+  inspo_pics Bytes[]
+  name String? 
 }

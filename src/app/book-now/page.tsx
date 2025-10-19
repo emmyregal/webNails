@@ -28,6 +28,7 @@ import { createNewAppt } from '../components/db-calls';
 
 
 
+
 //todo: 
 // input validation
 // submitting actually submits & sends to db
@@ -41,6 +42,7 @@ export default function Booking() {
     const [selectedType, setSelectedType] = useState('');
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
     const [inputValid, setInputValid] = useState<boolean>(false);
+    const [files, setFiles] = useState<FileList | null>(null);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,12 +51,9 @@ export default function Booking() {
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         console.log(`form json: ${JSON.stringify(formJson)}`)
-        
-        // const formatedDate = dayjs(formJson.Date).format('YYYY-MM-DDTHH:mm:ss')
+
         const formatedDate = new Date(formJson.Date)
-        console.log(`formatted date: ${formatedDate}`)
-        createNewAppt(formatedDate, formJson.Type)
-        
+        createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, files? Array.from(files) : null);
     };
 
 
@@ -196,7 +195,7 @@ export default function Booking() {
                                 multiline
                                 maxRows={8}
                                 variant="filled"
-                                name="comments"
+                                name="Comments"
                                 fullWidth
                             />
                         </Box>
@@ -218,11 +217,25 @@ export default function Booking() {
                                     multiple // mult pics if needed
                                     onChange={(e) => {
                                         const files = e.target.files;
-                                        // handle file upload logic here
-                                        console.log(files);
+                                        console.log(`files: ${files}`)
+                                        setFiles(files)
                                     }}
                                 />
                             </Button>
+                        </Box>
+                        <Box maxWidth={400}>
+                            {/* TODO: phone number formatting validation */}
+                            <Typography className='header'>Phone Number</Typography>
+                            <Typography className='subHeader'>
+                                Your phone number will be used to coordinate your appointment
+                            </Typography>
+                            <TextField
+                                id="filled-multiline-flexible"
+                                label="Phone Number"
+                                variant="filled"
+                                name="PhoneNumber"
+                                fullWidth
+                            />
                         </Box>
                     </form>
                 </Stack>
