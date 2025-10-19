@@ -26,6 +26,7 @@ import Chip from '@mui/material/Chip';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { createNewAppt } from '../components/db-calls';
 
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; // ⬅️ add this
 
 
 
@@ -56,6 +57,7 @@ export default function Booking() {
         createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, files? Array.from(files) : null);
     };
 
+    
 
     // const handleChange = (event: SelectChangeEvent) => {
     //     const value = event.target.value as NailType;
@@ -246,7 +248,13 @@ export default function Booking() {
                     <Button sx={{ color: alpha('#000000', 0.75) }} endIcon={<CheckCircleIcon />} type="submit" form="booking-form" variant="contained">Book Appointment</Button>
                 </Box>
 
-
+                <Box mt={6}>
+          <Typography className="header">Secure Payment</Typography>
+          {/*CHANGE OUT "YOUR_CLIENT_ID for adriannas number once she fills out her paypal thing" */}
+          <PayPalScriptProvider options={{ "client-id": "YOUR_CLIENT_ID", "enable-funding": "venmo" }}>
+            <PayPalButtons style={{ layout: "vertical" }} />
+          </PayPalScriptProvider>
+        </Box>
             </Box>
         </Container>
     );
