@@ -3,6 +3,15 @@
 import prisma from "@/lib/prisma";
 import { generateUrls } from "../api/upload-image";
 
+export const getSpecificAppt = async(appt_id: string) => {
+    const appt = await prisma.appointment.findUnique({
+        where: {
+            id: appt_id
+        }
+    })
+    return appt;
+}
+
 export const createNewAppt = async (date: Date, type: string, comments: string, phoneNumber: string, files: File[] | null) => {
     const hoursDiff = Math.abs(date.getUTCHours() - date.getHours());
     date.setHours(date.getHours() - hoursDiff) //need to manually adjust for timezone bc of funky db datetime formatting
