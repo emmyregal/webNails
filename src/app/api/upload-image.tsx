@@ -26,3 +26,7 @@ export async function generateUrls(images: File[], app_id: string) {
 
     return uploadUrls;
 }
+
+export async function getImages(imageUrls: String[]) {
+    
+}

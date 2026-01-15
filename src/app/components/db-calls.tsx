@@ -59,7 +59,7 @@ export const createNewAppt = async (date: Date, type: string, comments: string, 
             id : newAppointment.id,
         },
         data: {
-            inspo_pics: file_strings,
+            inspo_pics: file_strings.map((u)=> u.split("?")[0]),
         }
     })
     
