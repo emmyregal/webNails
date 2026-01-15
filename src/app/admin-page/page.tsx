@@ -1,3 +1,5 @@
+'use server'
+
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -20,8 +22,8 @@ export default async function AdminPage() {
             </Breadcrumbs>
 
         {appts.map((appt, index) => (
-            <Button key={index} href={`/admin-page/view?appointment=${appt.id}`}>
-                <Paper sx={{mb: 2}}>
+            <Paper key={index} sx={{mb: 2}}>
+                <Button href={`/admin-page/view?appointment=${appt.id}`}>
                     <Typography>
                         Client Name: {appt.name}
                     </Typography>
@@ -32,8 +34,8 @@ export default async function AdminPage() {
                         Nail Type: {appt.type}
                     </Typography>
                 
-                </Paper>
-            </Button>
+                </Button>
+            </Paper>
         ))}
         </Container>
     );

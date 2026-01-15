@@ -5,8 +5,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ResponsiveAppBar from './components/app-bar'
 import { ThemeProvider } from '@mui/material/styles';
-import { BrowserRouter } from "react-router";
-
 
 import theme from './theme';
 
@@ -27,14 +25,12 @@ export default function RootLayout({
     <html lang="en">
 
       <body>
-        <BrowserRouter>
         <ThemeProvider theme={theme}>
           <div>
             <ResponsiveAppBar />
             {children}
           </div>
         </ThemeProvider>
-        </BrowserRouter>
       </body>
     </html>
   );

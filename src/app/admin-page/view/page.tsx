@@ -1,32 +1,58 @@
-"use client";
+import prisma from "@/lib/prisma";
+import { Typography, Container, Breadcrumbs, Link, Paper } from "@mui/material";
 
-// import { useSearchParams } from "next/navigation";
 
-export default function Page() {
-//   const searchParams = useSearchParams();
-//   const apptId = searchParams.get("appointment");
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { appointment?: string };
+}) {
 
-  return (<div>Appointment ID: </div>);
+    const { appointment } = await searchParams
+
+    const appt = await prisma.appointment.findUnique({
+        where: {
+            id: appointment
+        }
+    })
+    if (appt) {
+        return (
+            <Container maxWidth='xl'>
+                <Breadcrumbs aria-label="breadcrumb" sx={{padding: 2.5}}>
+                    <Link underline="hover" color="inherit" href="/admin-page">
+                        Back to Appointments
+                    </Link>
+                </Breadcrumbs>
+
+                    <Paper sx={{mb: 2}}>
+                        <Typography>
+                            Client Name: {appt.name}
+                        </Typography>
+                        <Typography>
+                            Appt Date: {appt.date.toString()}
+                        </Typography>
+                        <Typography>
+                            Nail Type: {appt.type}
+                        </Typography>
+                        <Typography>
+                            Phone Number: {appt.type}
+                        </Typography>
+                        <Typography sx={{fontWeight: 800,fontSize: 21,  mb: 2, mt: 2  }}>
+                            Appointment Details:
+                        </Typography>
+                        <Typography>
+                            Comments: {appt.comments}
+                        </Typography>
+                        {/* get and display images from s3 urls stored in db */}
+                    </Paper>
+            </Container>
+        );
+    } else {
+        return ( //shouldnt happen if database working correctly
+            <Typography>
+                Error loading appointment
+            </Typography>
+        )
+    }
+
 }
-
-// // import { Typography } from "@mui/material";
-// import { useEffect, useState } from "react";
-// // import AppointmentView from "@/app/components/AppointmentView";
-
-// export default function Page() {
-//   const [apptId, setApptId] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     const params = new URLSearchParams(window.location.search);
-//     setApptId(params.get("appointment"));
-//   }, []);
-// //   if (apptId == null) {
-// //     return (
-// //         <Typography>
-// //             Error loading appt.
-// //         </Typography>
-// //     )
-// //   }
-
-// //   return <AppointmentView appt_id={apptId}/>
-// }
