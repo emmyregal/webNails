@@ -43,7 +43,7 @@ export default function Booking() {
     const [selectedType, setSelectedType] = useState('');
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
     const [inputValid, setInputValid] = useState<boolean>(false);
-    const [files, setFiles] = useState<FileList | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,15 +54,15 @@ export default function Booking() {
         console.log(`form json: ${JSON.stringify(formJson)}`)
 
         const formatedDate = new Date(formJson.Date)
-        createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, files? Array.from(files) : null);
+        createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, files);
     };
 
-    
+    const handleDelete = (index: number) => {
+        if (files) {
+            setFiles((files) => files.filter((_, i) => i !== index));
+        }
+    };
 
-    // const handleChange = (event: SelectChangeEvent) => {
-    //     const value = event.target.value as NailType;
-    //     setSelectedType(value);
-    // };
 
     const validateInput = () => {
         if (selectedType.length == 0) {
@@ -220,10 +220,18 @@ export default function Booking() {
                                     onChange={(e) => {
                                         const files = e.target.files;
                                         console.log(`files: ${files}`)
-                                        setFiles(files)
+                                        setFiles(files? Array.from(files) : [])
                                     }}
                                 />
                             </Button>
+                            <Stack direction="row" spacing={1}>
+                                {files? Array.from(files).map((img, index) => (
+                                    <div key={index}>
+                                        <Chip label={img.name} onDelete={() => handleDelete(index)} />
+                                    </div>
+                                )) : <div></div>}
+                                
+                            </Stack>
                         </Box>
                         <Box maxWidth={400}>
                             {/* TODO: phone number formatting validation */}
@@ -251,9 +259,9 @@ export default function Booking() {
                 <Box mt={6}>
           <Typography className="header">Secure Payment</Typography>
           {/*CHANGE OUT "YOUR_CLIENT_ID for adriannas number once she fills out her paypal thing" */}
-          <PayPalScriptProvider options={{ "client-id": "YOUR_CLIENT_ID", "enable-funding": "venmo" }}>
+          {/* <PayPalScriptProvider options={{ "client-id": "YOUR_CLIENT_ID", "enable-funding": "venmo" }}>
             <PayPalButtons style={{ layout: "vertical" }} />
-          </PayPalScriptProvider>
+          </PayPalScriptProvider> */}
         </Box>
             </Box>
         </Container>
