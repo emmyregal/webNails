@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { Typography, Container, Breadcrumbs, Link, Paper, Grid } from "@mui/material";
 import Image from "next/image";
+import ImageDialog from "@/app/components/dialog";
 
 
 export default async function Page({
@@ -47,13 +48,7 @@ export default async function Page({
                         <Typography>
                             Inspiration pics:
                         </Typography>
-                        <Grid container spacing={2}>
-                        {appt.inspo_pics.map((img, index) =>(
-                            <Grid key={index} size={3}>
-                                <img src={img} alt={`inspo image #${index}`}/>
-                            </Grid>
-                        ))}
-                        </Grid>
+                        <ImageDialog images={appt.inspo_pics} />
                     </Paper>
             </Container>
         );
