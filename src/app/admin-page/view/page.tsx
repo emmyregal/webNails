@@ -37,7 +37,7 @@ export default async function Page({
                             Nail Type: {appt.type}
                         </Typography>
                         <Typography>
-                            Phone Number: {appt.type}
+                            Phone Number: {appt.phone_number}
                         </Typography>
                         <Typography sx={{fontWeight: 800,fontSize: 21,  mb: 2, mt: 2  }}>
                             Appointment Details:

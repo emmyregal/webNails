@@ -4,7 +4,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Calandar from '../components/date-time-picker';
 import TypeSelect from '../components/selector';
-import { Button, CardActionArea, Divider, TextField, FormHelperText } from '@mui/material';
+import { Button, CardActionArea, Divider, TextField, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
@@ -32,7 +34,6 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; /
 
 //todo: 
 // input validation
-// submitting actually submits & sends to db
 // times are blocked out on the calanadar
 
 type NailType = 'acrylic' | 'gel';
@@ -41,20 +42,31 @@ type NailType = 'acrylic' | 'gel';
 export default function Booking() {
     // const [selectedType, setSelectedType] = useState<NailType | "">('');
     const [selectedType, setSelectedType] = useState('');
+    const [selectedName, setSelectedName] = useState('');
+    const [selectedPhoneNumber, setPhoneNumber] = useState('');
+    const [selectedComments, setComments] = useState('');
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-    const [inputValid, setInputValid] = useState<boolean>(false);
+    const [submissionFailed, setSubmissionFailed] = useState<boolean>(false);
     const [files, setFiles] = useState<File[]>([]);
+    const [open, setOpen] = React.useState(false);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        validateInput();
+        // validateSubmission();
+        // if (submissionValid) {
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
-        console.log(`form json: ${JSON.stringify(formJson)}`)
-
         const formatedDate = new Date(formJson.Date)
-        createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, files);
+        createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, formJson.name, files);
+        // if (formJson.Type.length != 0 && formJson.PhoneNumber.length != 0 && formJson.name.length != 0 && formJson.Date.length != 0) {
+        //     const formatedDate = new Date(formJson.Date)
+        //     createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, formJson.name, files);
+        //     setSubmissionFailed(false);
+        // }
+        // else {
+        //     setSubmissionFailed(true);
+        // }
     };
 
     const handleDelete = (index: number) => {
@@ -63,15 +75,20 @@ export default function Booking() {
         }
     };
 
-
-    const validateInput = () => {
-        if (selectedType.length == 0) {
-            console.log(`selected type: ${selectedType}`)
-            setInputValid(true)
-        } else {
-            setInputValid(false)
+    const handleClickOpen = () => {
+        if (selectedType.length != 0 && selectedPhoneNumber.length != 0 && selectedName.length != 0 && selectedDate != null) {
+            setSubmissionFailed(false);
+            setOpen(true);
         }
-    }
+        else {
+            setSubmissionFailed(true);
+        }
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
     interface durations {
         [key: string]: number;
@@ -101,6 +118,18 @@ export default function Booking() {
                             disabled
                             label={`Choose type of nails before date & time`}
                             value={selectedDate}
+                            slotProps={{
+                                textField: {
+                                    error: submissionFailed && !selectedDate,
+                                    helperText: !selectedDate && submissionFailed ? 'This field is required' : '',
+                                    sx: {
+                                        '& .MuiInputBase': {
+                                            fontFamily: '"Inter", sans-serif',
+                                            fontWeight: 800
+                                        },
+                                    },
+                                },
+                            }}
                         />
 
                     </DemoContainer>
@@ -110,7 +139,7 @@ export default function Booking() {
             return (
                 <div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DateTimePicker']}>
+                        <DemoContainer components={['DateTimePicker']} >
                             <DateTimePicker
                                 label={`Choose date & time (duration: ${typeDurations[selectedType]} hr)`}
                                 minTime={nineAM}
@@ -118,6 +147,18 @@ export default function Booking() {
                                 onChange={(newValue) => setSelectedDate(newValue)}
                                 value={selectedDate}
                                 name='Date'
+                                // sx={{input: "#388e3c"}}
+                                slotProps={{
+                                    textField: {
+                                        error: submissionFailed && !selectedDate,
+                                        helperText: !selectedDate && submissionFailed ? 'This field is required' : ''
+                                    },
+                                }}
+
+                            // sx={{
+                            //     // color: selectedDate == null && submissionFailed ?  '#d32f2f' : 'rgba(0, 0, 0, 0.6)',
+                            //     color: '#d32f2f'
+                            // }}
                             // disablePast
                             />
                         </DemoContainer>
@@ -141,6 +182,45 @@ export default function Booking() {
                 <Stack direction={'column'} spacing={4} display={'flex'} >
                     <form onSubmit={handleSubmit} id="booking-form">
                         <Box maxWidth={400}>
+                            <Typography className='header'>Name</Typography>
+                            <Typography className='subHeader'>
+                                Please enter your name
+                            </Typography>
+                            <TextField
+                                id="filled-multiline-flexible"
+                                label="Name"
+                                variant="filled"
+                                name="name"
+                                fullWidth
+                                value={selectedName}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    setSelectedName(event.target.value);
+                                }}
+                                error={selectedName.length == 0 && submissionFailed}
+                                helperText={!selectedName && submissionFailed ? 'This field is required' : ''}
+                            />
+                        </Box>
+                        <Box maxWidth={400}>
+                            {/* TODO: phone number formatting validation */}
+                            <Typography className='header'>Phone Number</Typography>
+                            <Typography className='subHeader'>
+                                Your phone number will be used to coordinate your appointment
+                            </Typography>
+                            <TextField
+                                id="filled-multiline-flexible"
+                                label="Phone Number"
+                                variant="filled"
+                                name="PhoneNumber"
+                                value={selectedPhoneNumber}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    setPhoneNumber(event.target.value);
+                                }}
+                                error={selectedPhoneNumber.length == 0 && submissionFailed}
+                                helperText={!selectedPhoneNumber && submissionFailed ? 'This field is required' : ''}
+                                fullWidth
+                            />
+                        </Box>
+                        <Box maxWidth={400}>
                             <Typography className='header'>What type of nails?</Typography>
                             <Typography className='subHeader'>
                                 Enter the type of nails you are looking for here
@@ -151,9 +231,9 @@ export default function Booking() {
 
                                 <FormControl fullWidth>
                                     <InputLabel sx={{
-                                        color: inputValid ? '#d32f2f' : 'rgba(0, 0, 0, 0.6)',
+                                        color: selectedType.length == 0 && submissionFailed ? '#d32f2f' : 'rgba(0, 0, 0, 0.6)',
                                         '&.Mui-focused': {
-                                            color: inputValid ? '#d32f2f' : 'primary.main',
+                                            color: selectedType.length == 0 && submissionFailed ? '#d32f2f' : 'primary.main',
                                         }
                                     }} id="nail-type-label">Type</InputLabel>
                                     <Select
@@ -162,14 +242,14 @@ export default function Booking() {
                                         value={selectedType}
                                         label="Type"
                                         onChange={handleTypeChange}
-                                        error={inputValid}
+                                        error={selectedType.length == 0 && submissionFailed}
                                         name="Type"
                                         fullWidth
                                     >
                                         <MenuItem value="gel">Gel</MenuItem>
                                         <MenuItem value="acrylic">Acrylic</MenuItem>
                                     </Select>
-                                    {inputValid && <FormHelperText sx={{ color: '#d32f2f' }}>This field is required</FormHelperText>}
+                                    {selectedType.length == 0 && submissionFailed && <FormHelperText sx={{ color: '#d32f2f' }}>This field is required</FormHelperText>}
                                 </FormControl>
 
                             </Box>
@@ -199,6 +279,10 @@ export default function Booking() {
                                 variant="filled"
                                 name="Comments"
                                 fullWidth
+                                value={selectedComments}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    setComments(event.target.value);
+                                }}
                             />
                         </Box>
                         <Box>
@@ -220,49 +304,91 @@ export default function Booking() {
                                     onChange={(e) => {
                                         const files = e.target.files;
                                         console.log(`files: ${files}`)
-                                        setFiles(files? Array.from(files) : [])
+                                        setFiles(files ? Array.from(files) : [])
                                     }}
                                 />
                             </Button>
                             <Stack direction="row" spacing={1}>
-                                {files? Array.from(files).map((img, index) => (
+                                {files ? Array.from(files).map((img, index) => (
                                     <div key={index}>
                                         <Chip label={img.name} onDelete={() => handleDelete(index)} />
                                     </div>
                                 )) : <div></div>}
-                                
+
                             </Stack>
                         </Box>
-                        <Box maxWidth={400}>
-                            {/* TODO: phone number formatting validation */}
-                            <Typography className='header'>Phone Number</Typography>
-                            <Typography className='subHeader'>
-                                Your phone number will be used to coordinate your appointment
-                            </Typography>
-                            <TextField
-                                id="filled-multiline-flexible"
-                                label="Phone Number"
-                                variant="filled"
-                                name="PhoneNumber"
-                                fullWidth
-                            />
-                        </Box>
+
                     </form>
                 </Stack>
                 <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2, mb: 4 }} />
                 <Box maxWidth={400}>
-
+                    <Dialog
+                        onClose={handleClose}
+                        aria-labelledby="customized-dialog-title"
+                        open={open}
+                    >
+                        <DialogTitle sx={{ m: 0 }} id="customized-dialog-title">
+                            Review Appointment Details 
+                        </DialogTitle>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={(theme) => ({
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                color: theme.palette.grey[500],
+                            })}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <DialogContent>
+                            <Stack spacing={2}>
+                                <Typography>
+                                    Name: {selectedName}
+                                </Typography>
+                                <Typography>
+                                    Phone Number: {selectedPhoneNumber}
+                                </Typography>
+                                <Typography>
+                                    Type of Nails: {selectedType}
+                                </Typography>
+                                <Typography>
+                                    Date & Time: {selectedDate?.toString()}
+                                </Typography>
+                                <Typography>
+                                    Comments: {selectedComments}
+                                </Typography>
+                                <Typography>
+                                    Inspirations Pics: 
+                                </Typography>
+                                    {files ? Array.from(files).map((img, index) => (
+                                        <Typography key={index}>
+                                            • {img.name}
+                                        </Typography>
+                                    )) : <div></div>}
+                            </Stack>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} autoFocus>
+                                Cancel
+                            </Button>
+                            <Button type="submit" form="booking-form" onClick={handleClose}>Confirm Booking</Button>
+                            
+                        </DialogActions>
+                    </Dialog>
                     {/* make this button look differnt */}
-                    <Button sx={{ color: alpha('#000000', 0.75) }} endIcon={<CheckCircleIcon />} type="submit" form="booking-form" variant="contained">Book Appointment</Button>
+                    <Button sx={{ color: alpha('#000000', 0.75) }} onClick={handleClickOpen} endIcon={<CheckCircleIcon />} variant="contained">Book Appointment</Button>
+                    {submissionFailed && <FormHelperText sx={{ color: '#d32f2f' }}>Please fill out required fields</FormHelperText>}
                 </Box>
 
                 <Box mt={6}>
-          <Typography className="header">Secure Payment</Typography>
-          {/*CHANGE OUT "YOUR_CLIENT_ID for adriannas number once she fills out her paypal thing" */}
-          {/* <PayPalScriptProvider options={{ "client-id": "YOUR_CLIENT_ID", "enable-funding": "venmo" }}>
+                    <Typography className="header">Secure Payment</Typography>
+                    {/*CHANGE OUT "YOUR_CLIENT_ID for adriannas number once she fills out her paypal thing" */}
+                    {/* <PayPalScriptProvider options={{ "client-id": "YOUR_CLIENT_ID", "enable-funding": "venmo" }}>
             <PayPalButtons style={{ layout: "vertical" }} />
           </PayPalScriptProvider> */}
-        </Box>
+                </Box>
             </Box>
         </Container>
     );

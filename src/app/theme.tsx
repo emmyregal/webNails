@@ -37,7 +37,7 @@ const theme = createTheme({
         root: {
           fontFamily: 'sans',
           fontWeight: 800,
-        }
+        },
       }
     },  
     MuiButton: {
@@ -56,6 +56,14 @@ const theme = createTheme({
         }
       }
     },    
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderColor: "#1e8827ff"
+        },
+        
+      }
+    },
     MuiTypography: {
         styleOverrides: {
             root: {
@@ -101,6 +109,9 @@ const theme = createTheme({
     },
     secondary: {
         main: logoDarkPink
+    },
+    error: {
+      main: '#d32f2f'
     }
   }
 });
