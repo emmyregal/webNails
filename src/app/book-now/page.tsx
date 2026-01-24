@@ -27,8 +27,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import Chip from '@mui/material/Chip';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { createNewAppt } from '../components/db-calls';
+import { TimePicker, TimePickerProps } from '@mui/x-date-pickers/TimePicker';
+import { DateTimeValidationError } from '@mui/x-date-pickers/models';
+
+import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; // ⬅️ add this
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 
 
 
@@ -37,6 +42,14 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; /
 // times are blocked out on the calanadar
 
 type NailType = 'acrylic' | 'gel';
+
+const isWeekend = (date: Dayjs) => {
+  const day = date.day();
+
+  return day === 0 || day === 6 || date < dayjs();
+};
+
+
 
 
 export default function Booking() {
@@ -49,6 +62,7 @@ export default function Booking() {
     const [submissionFailed, setSubmissionFailed] = useState<boolean>(false);
     const [files, setFiles] = useState<File[]>([]);
     const [open, setOpen] = React.useState(false);
+    const [error, setError] = React.useState<DateTimeValidationError | null>(null); 
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -98,7 +112,7 @@ export default function Booking() {
 
     const typeDurations: durations = {
         acrylic: 2,  //2 hour time period for acrylic set 
-        gel: 1.5, // 1.5 hour time slot for gel set 
+        gel: 1.5,    // 1.5 hour time slot for gel set 
     };
 
     //changes the type
@@ -106,8 +120,37 @@ export default function Booking() {
         setSelectedType(event.target.value as string);
     };
 
+    //TIME CONSTANTS - TUNE PER ADRIANA'S SCHEDULE:
+
+    const sevenAM = dayjs().set('hour', 7).startOf('hour');
     const nineAM = dayjs().set('hour', 9).startOf('hour');
     const sevenPM = dayjs().set('hour', 19).startOf('hour');
+
+    const timePadding = 15; // 15 minutes in between appointments
+
+    // returns true if the time is invalid
+    const shouldDisableTime: TimePickerProps['shouldDisableTime'] = (value, view) => {
+        const date = dayjs('2026-01-28T19:00');
+        const length = 90;
+
+        const ex_date = date.subtract(typeDurations[selectedType] * 60 + timePadding, 'minute');
+        const add_date = date.add(length + timePadding, 'minute');
+        const ex_length = length + ((typeDurations[selectedType]) * 60) + (timePadding * 2); 
+        
+        // validate hours: 
+        if (view == 'hours' && value.hour() > ex_date.hour() && value.hour() < add_date.hour()) {
+            if (value.diff(ex_date, 'hour') < 24 && value.diff(ex_date, 'hour') >= 0) {
+                return true;
+            } 
+        }
+
+        // validate minutes: 
+        const minuteDiff = value.diff(ex_date, 'minute');
+        if (view === 'minutes' && minuteDiff > 0 && minuteDiff < ex_length) {
+            return true;
+        }
+        return false; // 'value' is a valid date/time
+    };
 
     const renderCalandar = () => {
         if (selectedType.length == 0) {
@@ -117,7 +160,7 @@ export default function Booking() {
                         <DateTimePicker
                             disabled
                             label={`Choose type of nails before date & time`}
-                            value={selectedDate}
+                            value={null}
                             slotProps={{
                                 textField: {
                                     error: submissionFailed && !selectedDate,
@@ -140,26 +183,26 @@ export default function Booking() {
                 <div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DateTimePicker']} >
+                            {/* <MobileDateTimePicker */}
                             <DateTimePicker
                                 label={`Choose date & time (duration: ${typeDurations[selectedType]} hr)`}
-                                minTime={nineAM}
+                                minTime={sevenAM}
                                 maxTime={sevenPM}
                                 onChange={(newValue) => setSelectedDate(newValue)}
                                 value={selectedDate}
                                 name='Date'
-                                // sx={{input: "#388e3c"}}
                                 slotProps={{
                                     textField: {
                                         error: submissionFailed && !selectedDate,
                                         helperText: !selectedDate && submissionFailed ? 'This field is required' : ''
                                     },
                                 }}
-
-                            // sx={{
-                            //     // color: selectedDate == null && submissionFailed ?  '#d32f2f' : 'rgba(0, 0, 0, 0.6)',
-                            //     color: '#d32f2f'
-                            // }}
-                            // disablePast
+                                // disablePast
+                                shouldDisableDate={isWeekend}
+                                shouldDisableTime={shouldDisableTime}
+                                // onError={(newError: DateTimeValidationError) => {
+                                //     setError(newError);
+                                // }}
                             />
                         </DemoContainer>
                     </LocalizationProvider>
