@@ -143,4 +143,9 @@ updated the schema so it was accurately reflecting appointments
 installing venmo "captcha". do this in ur terminal 
 npm install @paypal/react-paypal-js
 
+
 MAKE ADRIANA SET UP PAYPAL ACC 
+
+
+to delete past appointments, theres a seperate function for that, run the command
+  npx tsx scripts/deletePastApps.ts
