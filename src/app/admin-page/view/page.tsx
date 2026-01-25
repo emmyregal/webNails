@@ -7,7 +7,7 @@ import ImageDialog from "@/app/components/dialog";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { appointment?: string };
+  searchParams: Promise<{ appointment?: string }>;
 }) {
 
     const { appointment } = await searchParams

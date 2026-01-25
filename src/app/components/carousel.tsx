@@ -1,10 +1,20 @@
 'use client'
 
-import React from 'react';
-import Carousel from 'react-material-ui-carousel'
-import { Box, Paper } from '@mui/material'
-import Image from 'next/image'
+import React, { useRef, useState } from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+import '../globals.css';
+
+// import required modules
+import { Autoplay, Pagination } from 'swiper/modules';
+
+import { Box } from '@mui/material';
 
 const items = [
     {
@@ -37,24 +47,33 @@ const items = [
     },
 ]
 
-export default function CarouselComponent() {
 
+export default function ImageSwiper() {
     return (
-        <Paper sx={{height: '100%'}}>
-        <Carousel>
-            {
-                items.map((item, i) => (
-                    <Box justifyContent={'center'} alignItems="center" display="flex" width={'100%'}>
-                        <Image
+        <>
+            <Swiper
+                style={{ '--swiper-theme-color': 'white' } as React.CSSProperties}
+                pagination={{
+                    clickable: true,
+                    dynamicBullets: true,
+                }}
+                autoplay={{
+                    delay: 6000,
+                    disableOnInteraction: false,
+                }}
+                
+                modules={[Autoplay, Pagination]} className="mySwiper">
+                {items.map((item, i) => (
+                    // <Box justifyContent={'center'} alignItems="center" display="flex" width={'100%'}>
+                    <SwiperSlide key={i}>
+                        <img
                             src={item.href}
-                            width={500}
-                            height={500}
-                            alt={item.alt}
+                            loading='lazy'
                         />
-                    </Box>
-                ))
-            }
-        </Carousel>
-        </Paper>
-    )
+                    </SwiperSlide>
+                    // </Box>
+                ))}
+            </Swiper>
+        </>
+    );
 }

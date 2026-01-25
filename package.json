@@ -24,20 +24,19 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@prisma/extension-accelerate": "^2.0.2",
-    "aws-sdk": "^1.18.0",
     "dayjs": "^1.11.13",
     "next": "^15.5.9",
     "pg": "^8.17.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-material-ui-carousel": "^3.4.2"
+    "swiper": "^12.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "prisma": "^7.3.0",
+    "prisma": "^6.19.2",
     "tailwindcss": "^4",
     "ts-node": "^1.7.1",
     "tsx": "^4.21.0",
