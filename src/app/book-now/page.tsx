@@ -20,7 +20,6 @@ import { Dayjs } from 'dayjs';
 import Chip from '@mui/material/Chip';
 import { createNewAppt } from '../components/db-calls';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import SimpleDialogDemo from '../components/test-dialog';
 
 import CalandarDialog from '../components/calendar-dialog';
 import {DialogContentText} from '@mui/material';

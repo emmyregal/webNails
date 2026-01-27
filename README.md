@@ -1,94 +1,51 @@
-## Time Components:
-+ https://mui.com/x/react-date-pickers/date-time-picker/
-
 ## Next Steps:
 + finish up home page styles ( emmy )
-+ finish s3 images ( megan )
 + admin dashboard ( emmy )
 + venmo plugin/captcha - don't send appt to db unless payment is valid ( emmy )
 + block off time availability ( also add input validation for all required fields )
 
+## Tools/Components:
++ https://mui.com/x/react-date-pickers/date-time-picker/
++ venmo "captcha": `npm install @paypal/react-paypal-js`
+
+
+## Scripts
+
+To delete past appointments from the database run the command: 
+
+`npx tsx scripts/deletePastApps.ts`
+
 ## Database
 
-**you no longer need the docker containter for the db, were using an instance hosted by prisma
-
-### Using the DB:
-After any changes to the schema:
-+ npx migrate dev --name {the name of the migration}
-
-To view the DB: 
-+ npx prisma studio
+This site uses [Prisma Postgres](https://www.prisma.io/postgres). Set-up instructions are below:
 
 ### Install dependencies:
 Run the following in a terminal in your directory that contains package.json (the directory w/ all the code):
 
-`npm i prisma --legacy-peer-deps`
++ `npm i prisma`
 
-`npm i @prisma/client --legacy-peer-deps`
-
-you may or may not need the `--legacy-peer-deps`, I needed them and I believe some version issues exist is the carosel component that I'll take a look at. 
++ `npm i @prisma/client`
 
 #### After those are installed:
 Create a file called .env with the following one line:
 
-`DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres"`
+`DATABASE_URL=`
 
-This is the URL that will connect to a local running instance of our database. 
+This is the URL that will connect to a running instance of our database. The actual value is confidential.
 
-#### Prisma:
-Prisma is the ORM we will be using. ORM means it's pretty much just a nice way to interact with the database.
-Here are the getting started docs (I've done up through step 2.3): [Prisma Docs](https://www.prisma.io/docs/guides/nextjs)
+On initial set-up, run the command: 
 
-Up to step 2.3 (what I've done so far): Created the initial schema. You'll find it under prisma/schema.prisma. All thats there so far are the User and Appointment tables (tables are synonomous with models). We can add/change these later.
++ `npx primsa generate`
 
-#### Postgres:
-Prisma is just a way to interact with the database, what about the database itself? Enter: [PostgreSQL](https://www.postgresql.org/)
+### Using the DB:
+After any changes to the schema:
++ `npx migrate dev --name {the name of the migration}`
 
-Set up:
+To view the DB: 
++ `npx prisma studio`
 
-To spin up a local postgresql instance, do the following:
-
-+ Open any terminal and make sure you have docker running on your machine (the database will live in a docker container while it is local). 
-+ Then run the following commands (taken from [docker hub btw](https://hub.docker.com/_/postgres)):
-
-`docker pull postgres:14.181` or just `docker pull postgres` for mac users
-
-`docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres` (wow great password)
-
-
-After you run these you will have a local postgres instance set up!
-
-To see the database, install the PostgreSQL VS Code Extention (the one authored by Database Client)
-
-After installing the extention you should see a new database tab open on your left side menu in VS Code. 
-+ Click that new database tab. 
-+ You should see an option for 'Create Connection' . Click create a connection. 
-+ Make sure PostgresSQL is selected as the server type. You can leave all of the defaults.
-+ Type 'mysecretpassword' for the password. 
-+ Then hit create a connection and it should be successful (lmk if this doesnt work cuz it can get weird sometimes)
-
-#### Adding tables
-
-To add the tables into postgres run the following in a terminal cd'd into the directory with all of the code in it:
-(`cd nailsWeb`, `cd prisma`) (needs to find ur schema.prisma file)
-
-`npx prisma migrate dev --name init`
-
-Then, go back to the database tab, open things up until you find the 'Tables' tab. Right click on Tables and hit 'Refresh'. You should now be able to see the tables. 
-
-Thats all for now. Its a lengthy set-up process so lmk if anything goes wrong. Now that its set up we can start using it our code, give me a little more time to work through that next part. 
-
-I DID IT
 
 ## Init setup:
-
-How 2 set up:
-
-download node.js: https://nodejs.org/en
-
-run the command: npm install once in project directory 
-
-to view the app, run the command: npm run dev and go to local host in browser (as stated below)
 
 (below is auto-generated)
 
@@ -128,24 +85,3 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-finished 2.4 
-added seeds/example ppl and appointments 
-npm install --save-dev ts-node --legacy-peer-deps
-npx prisma generate   
-npx prisma db seed 
-npx prisma studio //lets you see all the appountments in a browser
-
-i changed the json file to include the prisma seed
-made a seed file w random people as examples just like it said in 2.4
-updated the schema so it was accurately reflecting appointments 
-
-installing venmo "captcha". do this in ur terminal 
-npm install @paypal/react-paypal-js
-
-
-MAKE ADRIANA SET UP PAYPAL ACC 
-
-
-to delete past appointments, theres a seperate function for that, run the command
-  npx tsx scripts/deletePastApps.ts
