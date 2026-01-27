@@ -13,18 +13,26 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-            backgroundColor: logoGrey
+          backgroundColor: logoGrey
         }
       }
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          fontFamily: 'sans',
-          fontWeight: 800
+          fontFamily: 'quicksand',
+          fontWeight: 800,
+          // fontSize: '25px'
         }
       }
-    },  
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'quicksand',
+        }
+      }
+    },
     MuiMenu: {
       styleOverrides: {
         root: {
@@ -35,80 +43,83 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          fontFamily: 'sans',
+          fontFamily: 'quicksand',
           fontWeight: 800,
+          // backgroundColor: 'red'
         },
       }
-    },  
+    },
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: 'sans',
+          fontFamily: 'quicksand',
           fontWeight: 800,
-        }
-      }
+          fontSize: '13.5px',
+          // color: logoGrey,
+        },
+        contained: {
+          backgroundColor: '#ca8190',
+          color: logoGrey,
+
+          '&:hover': {
+            backgroundColor: logoDarkPink,
+          },
+        },
+      },
     },
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          fontFamily: 'sans',
+          fontFamily: 'quicksand',
           fontWeight: 800,
         }
       }
-    },    
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          borderColor: "#1e8827ff"
-        },
-        
-      }
     },
     MuiTypography: {
-        styleOverrides: {
-            root: {
-                color: logoPink,
-                fontFamily: 'malibu'
-            }
-        },
-        variants: [
-          {
-            props: {className: 'bigHeader'},
-            style: {
-              fontFamily: 'starborn',
-              // marginBottom: 4,
-              marginTop: 12,
-              fontSize: 30
-            }
-          },
-          {
-            props: {className: 'header'},
-            style: {
-              fontFamily: 'malibu',
-              marginBottom: 4,
-              marginTop: 30,
-              fontSize: 18,
-            }
-          },
-          {
-            props: {className: 'subHeader'},
-            style: {
-              fontFamily: 'sans',
-              fontWeight: 800,
-              marginBottom: 15,
-              fontSize: 15,
-              color: alpha(logoPink, 0.65)
-            }
+      styleOverrides: {
+        root: {
+          color: logoPink,
+          fontFamily: 'quicksand',
+        }
+      },
+      variants: [
+        {
+          props: { className: 'bigHeader' },
+          style: {
+            fontFamily: 'starborn',
+            // marginBottom: 4,
+            marginTop: 12,
+            fontSize: 30
           }
-        ]
+        },
+        {
+          props: { className: 'header' },
+          style: {
+            fontFamily: 'malibu',
+            marginBottom: 4,
+            marginTop: 30,
+            fontSize: 18,
+          }
+        },
+        {
+          props: { className: 'subHeader' },
+          style: {
+            fontFamily: 'quicksand',
+            fontWeight: 800,
+            marginBottom: 15,
+            fontSize: 15,
+            color: alpha(logoPink, 0.65)
+          }
+        }
+      ]
     }
   },
   palette: {
     primary: {
-        main: logoPink
+      main: logoPink
     },
     secondary: {
-        main: logoDarkPink
+      main: logoDarkPink
     },
     error: {
       main: '#d32f2f'

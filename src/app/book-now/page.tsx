@@ -2,7 +2,6 @@
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Calandar from '../components/date-time-picker';
 import TypeSelect from '../components/selector';
 import { Button, CardActionArea, Divider, TextField, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -29,6 +28,13 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { createNewAppt } from '../components/db-calls';
 import { TimePicker, TimePickerProps } from '@mui/x-date-pickers/TimePicker';
 import { DateTimeValidationError } from '@mui/x-date-pickers/models';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+
+import RenderCalandar from '../components/date-time-picker';
+
+import CalandarDialog from '../components/calendar-dialog';
+
+import MyCalendar from "../components/big-calandar";
 
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
@@ -43,12 +49,10 @@ import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 
 type NailType = 'acrylic' | 'gel';
 
-const isWeekend = (date: Dayjs) => {
-  const day = date.day();
 
-  return day === 0 || day === 6 || date < dayjs();
-};
 
+
+//TIME CONSTANTS: 
 
 
 
@@ -62,7 +66,7 @@ export default function Booking() {
     const [submissionFailed, setSubmissionFailed] = useState<boolean>(false);
     const [files, setFiles] = useState<File[]>([]);
     const [open, setOpen] = React.useState(false);
-    const [error, setError] = React.useState<DateTimeValidationError | null>(null); 
+    const [error, setError] = React.useState<DateTimeValidationError | null>(null);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -120,104 +124,11 @@ export default function Booking() {
         setSelectedType(event.target.value as string);
     };
 
-    //TIME CONSTANTS - TUNE PER ADRIANA'S SCHEDULE:
-
-    const sevenAM = dayjs().set('hour', 7).startOf('hour');
-    const nineAM = dayjs().set('hour', 9).startOf('hour');
-    const sevenPM = dayjs().set('hour', 19).startOf('hour');
-
-    const timePadding = 15; // 15 minutes in between appointments
-
-    // returns true if the time is invalid
-    const shouldDisableTime: TimePickerProps['shouldDisableTime'] = (value, view) => {
-        const date = dayjs('2026-01-28T19:00');
-        const length = 90;
-
-        const ex_date = date.subtract(typeDurations[selectedType] * 60 + timePadding, 'minute');
-        const add_date = date.add(length + timePadding, 'minute');
-        const ex_length = length + ((typeDurations[selectedType]) * 60) + (timePadding * 2); 
-        
-        // validate hours: 
-        if (view == 'hours' && value.hour() > ex_date.hour() && value.hour() < add_date.hour()) {
-            if (value.diff(ex_date, 'hour') < 24 && value.diff(ex_date, 'hour') >= 0) {
-                return true;
-            } 
-        }
-
-        // validate minutes: 
-        const minuteDiff = value.diff(ex_date, 'minute');
-        if (view === 'minutes' && minuteDiff > 0 && minuteDiff < ex_length) {
-            return true;
-        }
-        return false; // 'value' is a valid date/time
-    };
-
-    const renderCalandar = () => {
-        if (selectedType.length == 0) {
-            return (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DateTimePicker']}>
-                        <DateTimePicker
-                            disabled
-                            label={`Choose type of nails before date & time`}
-                            value={null}
-                            slotProps={{
-                                textField: {
-                                    error: submissionFailed && !selectedDate,
-                                    helperText: !selectedDate && submissionFailed ? 'This field is required' : '',
-                                    sx: {
-                                        '& .MuiInputBase': {
-                                            fontFamily: '"Inter", sans-serif',
-                                            fontWeight: 800
-                                        },
-                                    },
-                                },
-                            }}
-                        />
-
-                    </DemoContainer>
-                </LocalizationProvider>
-            )
-        } else {
-            return (
-                <div>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DateTimePicker']} >
-                            {/* <MobileDateTimePicker */}
-                            <DateTimePicker
-                                label={`Choose date & time (duration: ${typeDurations[selectedType]} hr)`}
-                                minTime={sevenAM}
-                                maxTime={sevenPM}
-                                onChange={(newValue) => setSelectedDate(newValue)}
-                                value={selectedDate}
-                                name='Date'
-                                slotProps={{
-                                    textField: {
-                                        error: submissionFailed && !selectedDate,
-                                        helperText: !selectedDate && submissionFailed ? 'This field is required' : ''
-                                    },
-                                }}
-                                // disablePast
-                                shouldDisableDate={isWeekend}
-                                shouldDisableTime={shouldDisableTime}
-                                // onError={(newError: DateTimeValidationError) => {
-                                //     setError(newError);
-                                // }}
-                            />
-                        </DemoContainer>
-                    </LocalizationProvider>
-                    {/* display the date time in a nice way: */}
-                    {/* <Chip label={`Chosen Date & Time:`}  /> */}
-                </div>
-            )
-        }
-    }
-
 
     return (
         <Container maxWidth="lg">
             <Typography className='bigHeader'>
-                Enter Booking Details
+                ENTER BOOKING DETAILS
             </Typography>
             <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2 }} />
 
@@ -288,6 +199,20 @@ export default function Booking() {
                                         error={selectedType.length == 0 && submissionFailed}
                                         name="Type"
                                         fullWidth
+                                        MenuProps={{
+                                            PaperProps: {
+                                                sx: {
+                                                    bgcolor: '#f5f4f0',
+                                                },
+                                            },
+                                            MenuListProps: {
+                                                sx: {
+                                                    '& .MuiMenuItem-root .MuiTouchRipple-root span': {
+                                                        backgroundColor: '#d8a2ad',
+                                                    },
+                                                },
+                                            },
+                                        }}
                                     >
                                         <MenuItem value="gel">Gel</MenuItem>
                                         <MenuItem value="acrylic">Acrylic</MenuItem>
@@ -302,10 +227,14 @@ export default function Booking() {
                             <Typography className='subHeader'>
                                 Enter your appointment date and time here
                             </Typography>
-                            {/* <Calandar/> */}
-                            {/* <Calandar duration={typeDurations[selectedType]} /> */}
+                            {(selectedType.length == 0) ?
+                                <Button variant="contained" disabled>
+                                    Choose type of nails before date & time
+                                </Button>
+                                :
+                                <CalandarDialog setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
+                            }
 
-                            {renderCalandar()}
                         </Box>
 
 
@@ -334,10 +263,10 @@ export default function Booking() {
                                 Upload any inspo pics here
                             </Typography>
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 component="label"
                             >
-                                Upload File
+                                UPLOAD FILE
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -351,14 +280,15 @@ export default function Booking() {
                                     }}
                                 />
                             </Button>
-                            <Stack direction="row" spacing={1}>
-                                {files ? Array.from(files).map((img, index) => (
-                                    <div key={index}>
-                                        <Chip label={img.name} onDelete={() => handleDelete(index)} />
-                                    </div>
-                                )) : <div></div>}
-
-                            </Stack>
+                            <Box sx={{ mt: 2 }}>
+                                <Stack direction="column" spacing={1}>
+                                    {files ? Array.from(files).map((img, index) => (
+                                        <div key={index}>
+                                            <Chip label={img.name} onDelete={() => handleDelete(index)} />
+                                        </div>
+                                    )) : <div></div>}
+                                </Stack>
+                            </Box>
                         </Box>
 
                     </form>
@@ -369,9 +299,10 @@ export default function Booking() {
                         onClose={handleClose}
                         aria-labelledby="customized-dialog-title"
                         open={open}
+                        fullWidth={true}
                     >
-                        <DialogTitle sx={{ m: 0 }} id="customized-dialog-title">
-                            Review Appointment Details 
+                        <DialogTitle sx={{ m: 0, fontWeight: 800 }} id="customized-dialog-title">
+                            Review Appointment Details
                         </DialogTitle>
                         <IconButton
                             aria-label="close"
@@ -387,29 +318,61 @@ export default function Booking() {
                         </IconButton>
                         <DialogContent>
                             <Stack spacing={2}>
-                                <Typography>
-                                    Name: {selectedName}
-                                </Typography>
-                                <Typography>
-                                    Phone Number: {selectedPhoneNumber}
-                                </Typography>
-                                <Typography>
-                                    Type of Nails: {selectedType}
-                                </Typography>
-                                <Typography>
-                                    Date & Time: {selectedDate?.toString()}
-                                </Typography>
-                                <Typography>
-                                    Comments: {selectedComments}
-                                </Typography>
-                                <Typography>
-                                    Inspirations Pics: 
-                                </Typography>
-                                    {files ? Array.from(files).map((img, index) => (
-                                        <Typography key={index}>
-                                            • {img.name}
+                                <Stack spacing={1} direction={'row'}>
+                                    <Typography sx={{ fontWeight: 800 }}>
+                                        Name:
+                                    </Typography>
+                                    <Typography>
+                                        {selectedName}
+                                    </Typography>
+                                </Stack>
+                                <Stack spacing={1} direction={'row'}>
+                                    <Typography sx={{ fontWeight: 800 }}>
+                                        Phone Number:
+                                    </Typography>
+                                    <Typography>
+                                        {selectedPhoneNumber}
+                                    </Typography>
+                                </Stack>
+                                <Stack spacing={1} direction={'row'}>
+                                    <Typography sx={{ fontWeight: 800 }}>
+                                        Type of Nails:
+                                    </Typography>
+                                    <Typography>
+                                        {selectedType}
+                                    </Typography>
+                                </Stack>
+                                <Stack spacing={1} direction={'row'}>
+                                    <Typography sx={{ fontWeight: 800 }}>
+                                        Date & Time:
+                                    </Typography>
+                                    <Typography>
+                                        {selectedDate?.toString()}
+                                    </Typography>
+                                </Stack>
+                                {selectedComments.length !== 0 && <Stack spacing={1} direction={'row'}>
+                                    <Typography sx={{ fontWeight: 800 }}>
+                                        Comments:
+                                    </Typography>
+                                    <Typography>
+                                        {selectedComments}
+                                    </Typography>
+                                </Stack>}
+                                {files.length !== 0 &&
+                                    <div>
+                                        <Typography sx={{ fontWeight: 800, mb: 1 }}>
+                                            Inspirations Pics:
                                         </Typography>
-                                    )) : <div></div>}
+                                        <Stack spacing={1} direction={'column'} sx={{ml: 1}}>
+                                            {Array.from(files).map((img, index) => (
+                                                <Typography key={index}>
+                                                    • {img.name}
+                                                </Typography>
+                                            ))}
+                                        </Stack>
+                                    </div>
+                                }
+
                             </Stack>
                         </DialogContent>
                         <DialogActions>
@@ -417,11 +380,11 @@ export default function Booking() {
                                 Cancel
                             </Button>
                             <Button type="submit" form="booking-form" onClick={handleClose}>Confirm Booking</Button>
-                            
+
                         </DialogActions>
                     </Dialog>
                     {/* make this button look differnt */}
-                    <Button sx={{ color: alpha('#000000', 0.75) }} onClick={handleClickOpen} endIcon={<CheckCircleIcon />} variant="contained">Book Appointment</Button>
+                    <Button sx={{ fontFamily: 'starborn', fontWeight: 400, fontSize: 16, color: '#f5f4f0', backgroundColor: '#ca8190' }} endIcon={<AutoAwesomeIcon />} onClick={handleClickOpen} variant="contained">Book Appointment</Button>
                     {submissionFailed && <FormHelperText sx={{ color: '#d32f2f' }}>Please fill out required fields</FormHelperText>}
                 </Box>
 

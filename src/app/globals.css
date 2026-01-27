@@ -6,6 +6,11 @@
   --swiper-theme-color: #ff4081;
 }
 
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+/* @import '../sass/styles'; */
+/* @import '../sass/styles.scss'; */
+/* @import 'react-big-calendar/lib/sass/styles'; */
+
 
 @theme inline {
   --color-background: var(--background);
@@ -14,18 +19,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+
 @font-face {
-  font-family: 'starborn';
-  src: url(../../public/fonts/starborn/starshines-webfont.woff) format('woff'), 
-       url(../../public/fonts/starborn/starshines-webfont.woff2) format('woff2');
+  font-family: 'malibu';
+  src: url(../../public/fonts/malibu/super_malibu-webfont.woff) format('woff'),
+    url(../../public/fonts/malibu/super_malibu-webfont.woff2) format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'malibu';
-  src: url(../../public/fonts/malibu/super_malibu-webfont.woff) format('woff'),
-       url(../../public/fonts/malibu/super_malibu-webfont.woff2) format('woff2');
+  font-family: 'starborn';
+  src: url(../../public/fonts/starborn/starshines-webfont.woff) format('woff'),
+    url(../../public/fonts/starborn/starshines-webfont.woff2) format('woff2');
   font-weight: normal;
   font-style: normal;
 }
@@ -33,7 +39,7 @@
 @font-face {
   font-family: 'anti';
   src: url(../../public/fonts/anti/antipasto-pro-regular-trial-webfont.woff) format('woff'),
-       url(../../public/fonts/anti/antipasto-pro-regular-trial-webfont.woff2) format('woff2');
+    url(../../public/fonts/anti/antipasto-pro-regular-trial-webfont.woff2) format('woff2');
   font-weight: normal;
   font-style: oblique;
 }
@@ -41,7 +47,80 @@
 @font-face {
   font-family: 'sans';
   src: url(../../public/fonts/sans/sansation_regular-webfont.woff) format('woff'),
-       url(../../public/fonts/sans/sansation_regular-webfont.woff2) format('woff2');
+    url(../../public/fonts/sans/sansation_regular-webfont.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'quicksand';
+  src: url(../../public/fonts/quicksand/Quicksand-Regular.woff2) format('woff2');
+  /* font-size: 23px */
+}
+
+
+.rbc-event {
+  background-color: #b76074;
+}
+
+.rbc-current-time-indicator {
+  background-color: #b76074
+}
+
+.rbc-today {
+  background-color: #efdcdf7a;
+}
+
+.rbc-today .rbc-timeslot-group {
+  border-color: #e7cbcf;
+}
+
+.rbc-timeslot-group .rbc-time-slot {
+  border-width: 0;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+  font-size: 23px
+}
+
+.rbc-day-slot .rbc-event {
+  border-width: 1.5;
+  border-color: #b76074;
+  background-color: #b76074;
+  border-radius: 4;
+}
+
+.rbc-day-slot .rbc-background-event {
+  border-width: 1.5;
+  border-color: #ca8190;
+  background-color: #ca8190;
+  border-radius: 4;
+}
+
+.rbc-calendar {
+  font-family: 'quicksand';
+  font-size: 15px;  
+}
+
+.rbc-allday-cell {
+  display: none;
+}
+
+.rbc-header {
+  /* font-size: 23; */
+  font-weight: 400;
+}
+
+.rbc-time-header-gutter,
+.rbc-time-gutter {
+  width: 70.8359px !important;
+  min-width: 70.8359px !important;
+  max-width: 70.8359px !important;
+  border-bottom: 1px solid #ddd
+}
+
+
+
+.rbc-toolbar {
+  /* font-size: 23 */
 }
 
 
@@ -68,10 +147,8 @@
   object-fit: cover;
 }
 
-
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'starborn';
+  font-family: 'malibu';
 }
