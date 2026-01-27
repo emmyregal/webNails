@@ -124,6 +124,11 @@ export default function Booking() {
         setSelectedType(event.target.value as string);
     };
 
+    const validateTel = (tel: string): boolean => {
+        const re = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/;
+        return re.test(tel);
+    }
+
 
     return (
         <Container maxWidth="lg">
@@ -169,9 +174,10 @@ export default function Booking() {
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                     setPhoneNumber(event.target.value);
                                 }}
-                                error={selectedPhoneNumber.length == 0 && submissionFailed}
-                                helperText={!selectedPhoneNumber && submissionFailed ? 'This field is required' : ''}
+                                error={(selectedPhoneNumber.length == 0 || !validateTel(selectedPhoneNumber)) && submissionFailed}
+                                helperText={(selectedPhoneNumber.length == 0 || !validateTel(selectedPhoneNumber)) && submissionFailed ? 'Please enter a valid phone number' : ''}
                                 fullWidth
+                                type='tel'
                             />
                         </Box>
                         <Box maxWidth={400}>
