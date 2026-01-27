@@ -7,6 +7,7 @@ import ResponsiveAppBar from './components/app-bar'
 import { ThemeProvider } from '@mui/material/styles';
 
 import theme from './theme';
+import Footer from "./components/footer";
 
 
 
@@ -29,6 +30,7 @@ export default function RootLayout({
           <div>
             <ResponsiveAppBar />
             {children}
+            <Footer/>
           </div>
         </ThemeProvider>
       </body>

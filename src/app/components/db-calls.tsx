@@ -37,7 +37,7 @@ export const getAppts = async () => {
 }
 
 export const createNewAppt = async (date: Date, type: string, comments: string, phoneNumber: string, name: string, files: File[] | null) => {
-    const hoursDiff = Math.abs(date.getUTCHours() - date.getHours());
+    // const hoursDiff = Math.abs(date.getUTCHours() - date.getHours());
     // date.setHours(date.getHours() - hoursDiff) //need to manually adjust for timezone bc of funky db datetime formatting
     const newAppointment = await prisma.appointment.create({
         data: {

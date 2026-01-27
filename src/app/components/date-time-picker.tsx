@@ -97,7 +97,7 @@ const RenderCalandar = ({ setSelectedDate, selectedType, submissionFailed, selec
                   error: submissionFailed && !selectedDate,
                   helperText: !selectedDate && submissionFailed ? 'This field is required' : '',
                   sx: {
-                    fontFamily: 'dongle'
+                    fontFamily: 'quicksand'
                   }
                 },
                 // layout: {

@@ -56,6 +56,12 @@
   /* font-size: 23px */
 }
 
+footer {
+  background-color: #e7cbcf47;
+  font-family: 'quicksand';
+  padding-bottom: 30px;
+}
+
 
 .rbc-event {
   background-color: #b76074;

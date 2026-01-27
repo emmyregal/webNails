@@ -27,6 +27,7 @@ export default function CalandarDialog({ setSelectedDate, selectedType, submissi
     };
 
     const handleClose = () => {
+        console.log('DIALOG CURR DATE ==== ')
         setOpen(false);
     };
 
@@ -73,13 +74,12 @@ export default function CalandarDialog({ setSelectedDate, selectedType, submissi
                     <Box sx={{ height: 575 }}>
                         {open && (<MyCalendar bgEvent={getCurrEvent()} />)}
                     </Box>
-
                 </DialogContent>
-                <DialogActions sx={{alignItems: 'center'}}>
+                <DialogActions sx={{ alignItems: 'center' }}>
                     <Box sx={{ mr: 'auto', minWidth: '30%', alignItems: 'center', mb: 1 }}>
                         <RenderCalandar setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
                     </Box>
-                    <Button variant='contained' onClick={handleClose}>Close</Button>
+                    <Button variant='contained' onClick={handleClose}>Choose</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

@@ -1,9 +1,7 @@
 'use client'
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TypeSelect from '../components/selector';
-import { Button, CardActionArea, Divider, TextField, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText } from '@mui/material';
+import { Button, Divider, TextField, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
@@ -18,23 +16,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import Chip from '@mui/material/Chip';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { createNewAppt } from '../components/db-calls';
-import { TimePicker, TimePickerProps } from '@mui/x-date-pickers/TimePicker';
-import { DateTimeValidationError } from '@mui/x-date-pickers/models';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-
-import RenderCalandar from '../components/date-time-picker';
+import SimpleDialogDemo from '../components/test-dialog';
 
 import CalandarDialog from '../components/calendar-dialog';
-
-import MyCalendar from "../components/big-calandar";
+import {DialogContentText} from '@mui/material';
 
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
@@ -42,22 +31,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; /
 import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 
 
-
-//todo: 
-// input validation
-// times are blocked out on the calanadar
-
-type NailType = 'acrylic' | 'gel';
-
-
-
-
-//TIME CONSTANTS: 
-
-
-
 export default function Booking() {
-    // const [selectedType, setSelectedType] = useState<NailType | "">('');
     const [selectedType, setSelectedType] = useState('');
     const [selectedName, setSelectedName] = useState('');
     const [selectedPhoneNumber, setPhoneNumber] = useState('');
@@ -66,25 +40,36 @@ export default function Booking() {
     const [submissionFailed, setSubmissionFailed] = useState<boolean>(false);
     const [files, setFiles] = useState<File[]>([]);
     const [open, setOpen] = React.useState(false);
-    const [error, setError] = React.useState<DateTimeValidationError | null>(null);
+    const [submitLoading, setSubmitLoading] = React.useState(false)
+    const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
+    const [databaseConnSuccessfull, setDBC] = React.useState(false);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // validateSubmission();
-        // if (submissionValid) {
+        setSubmitLoading(true);
+
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
-        const formatedDate = new Date(formJson.Date)
-        createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, formJson.name, files);
-        // if (formJson.Type.length != 0 && formJson.PhoneNumber.length != 0 && formJson.name.length != 0 && formJson.Date.length != 0) {
-        //     const formatedDate = new Date(formJson.Date)
-        //     createNewAppt(formatedDate, formJson.Type, formJson.Comments, formJson.PhoneNumber, formJson.name, files);
-        //     setSubmissionFailed(false);
-        // }
-        // else {
-        //     setSubmissionFailed(true);
-        // }
+
+        // add additional veriication and type checking here
+        if (selectedDate !== null) {
+            try {
+                await createNewAppt(selectedDate.toDate(), formJson.Type, formJson.Comments, formJson.PhoneNumber, formJson.name, files);
+            } catch (err) {
+                console.error(err)
+            } finally {
+                setSubmitLoading(false);
+                setOpen(false);
+                setFinalDialogOpen(true);
+                setDBC(true);
+            }
+
+        } else {
+            setSubmitLoading(false);
+            setOpen(false);
+            setDBC(false);
+        }
     };
 
     const handleDelete = (index: number) => {
@@ -94,7 +79,7 @@ export default function Booking() {
     };
 
     const handleClickOpen = () => {
-        if (selectedType.length != 0 && selectedPhoneNumber.length != 0 && selectedName.length != 0 && selectedDate != null) {
+        if (selectedType.length != 0 && selectedPhoneNumber.length != 0 && validateTel(selectedPhoneNumber) && selectedName.length != 0 && selectedDate != null) {
             setSubmissionFailed(false);
             setOpen(true);
         }
@@ -105,6 +90,11 @@ export default function Booking() {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleFinalDialogClose = () => {
+        setFinalDialogOpen(false);
+        window.location.replace('/');
     };
 
 
@@ -160,7 +150,6 @@ export default function Booking() {
                             />
                         </Box>
                         <Box maxWidth={400}>
-                            {/* TODO: phone number formatting validation */}
                             <Typography className='header'>Phone Number</Typography>
                             <Typography className='subHeader'>
                                 Your phone number will be used to coordinate your appointment
@@ -185,7 +174,6 @@ export default function Booking() {
                             <Typography className='subHeader'>
                                 Enter the type of nails you are looking for here
                             </Typography>
-                            {/* <TypeSelect onChange={handleTypeChange} /> */}
 
                             <Box sx={{ minWidth: 120 }}>
 
@@ -240,9 +228,7 @@ export default function Booking() {
                                 :
                                 <CalandarDialog setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
                             }
-
                         </Box>
-
 
                         <Box maxWidth={400}>
                             <Typography className='header'>Additional comments</Typography>
@@ -299,7 +285,7 @@ export default function Booking() {
 
                     </form>
                 </Stack>
-                <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.5), mt: 2, mb: 4 }} />
+
                 <Box maxWidth={400}>
                     <Dialog
                         onClose={handleClose}
@@ -369,7 +355,7 @@ export default function Booking() {
                                         <Typography sx={{ fontWeight: 800, mb: 1 }}>
                                             Inspirations Pics:
                                         </Typography>
-                                        <Stack spacing={1} direction={'column'} sx={{ml: 1}}>
+                                        <Stack spacing={1} direction={'column'} sx={{ ml: 1 }}>
                                             {Array.from(files).map((img, index) => (
                                                 <Typography key={index}>
                                                     • {img.name}
@@ -385,14 +371,33 @@ export default function Booking() {
                             <Button onClick={handleClose} autoFocus>
                                 Cancel
                             </Button>
-                            <Button type="submit" form="booking-form" onClick={handleClose}>Confirm Booking</Button>
+                            <Button type="submit" form="booking-form" loading={submitLoading}>Confirm Booking</Button>
 
                         </DialogActions>
                     </Dialog>
                     {/* make this button look differnt */}
-                    <Button sx={{ fontFamily: 'starborn', fontWeight: 400, fontSize: 16, color: '#f5f4f0', backgroundColor: '#ca8190' }} endIcon={<AutoAwesomeIcon />} onClick={handleClickOpen} variant="contained">Book Appointment</Button>
+                    <Button sx={{ fontFamily: 'starborn', fontWeight: 400, fontSize: 16, color: '#f5f4f0', backgroundColor: '#ca8190', mt: 3 }}
+                        endIcon={<AutoAwesomeIcon />}
+                        onClick={handleClickOpen}
+                        variant="contained">
+                        Book Appointment
+                    </Button>
                     {submissionFailed && <FormHelperText sx={{ color: '#d32f2f' }}>Please fill out required fields</FormHelperText>}
                 </Box>
+
+                <Dialog
+                    open={finalDialogOpen}
+                    onClose={handleFinalDialogClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {databaseConnSuccessfull? "Appointment successfully created. You'll recieve a text message with your appointment details." : "Appointment creation failed, please try again"}
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button onClick={handleFinalDialogClose}>Ok</Button>
+                    </DialogActions>
+                </Dialog>
 
                 <Box mt={6}>
                     <Typography className="header">Secure Payment</Typography>
@@ -406,7 +411,3 @@ export default function Booking() {
     );
 
 }
-
-// want to add a section at the bottom of everypage w adriana and dev info
-
-
