@@ -87,6 +87,14 @@ footer {
   font-size: 23px
 }
 
+.rbc-show-more {
+  color: #b76074;
+}
+
+.rbc-show-more:hover {
+  color: #9e475b;
+}
+
 .rbc-day-slot .rbc-event {
   border-width: 1.5;
   border-color: #b76074;

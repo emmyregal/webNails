@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import MyCalendar from './big-calandar';
-import RenderCalandar from './date-time-picker';
+import Picker from './date-time-picker';
 import dayjs, { Dayjs } from 'dayjs';
 
 
@@ -53,8 +53,8 @@ export default function CalandarDialog({ setSelectedDate, selectedType, submissi
 
     return (
         <React.Fragment>
-            <Button variant="contained" onClick={handleClickOpen}>
-                Choose Date & Time
+            <Button sx={{mb: 2}} variant="contained" onClick={handleClickOpen}>
+                Open Calendar View
             </Button>
             <Dialog
                 open={open}
@@ -69,8 +69,8 @@ export default function CalandarDialog({ setSelectedDate, selectedType, submissi
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{ alignItems: 'center' }}>
-                    <Box sx={{ mr: 'auto', minWidth: '30%', alignItems: 'center', mb: 1 }}>
-                        <RenderCalandar setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
+                    <Box sx={{ mr: 'auto', minWidth: '40%', alignItems: 'center', mb: 1 }}>
+                        <Picker setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
                     </Box>
                     <Button variant='contained' onClick={handleClose}>Choose</Button>
                 </DialogActions>

@@ -24,7 +24,7 @@ export const getSpecificAppt = async (appt_id: string) => {
     return appt;
 }
 
-export const getAppts = async () => {
+export const getEvents = async () => {
     const appts = await prisma.appointment.findMany()
     return appts.map((appt, index) => ({
         id: index,
@@ -34,6 +34,11 @@ export const getAppts = async () => {
             .add(typeDurations[appt.type], 'hours')
             .toDate(),
     }))
+}
+
+export const getAppointments = async () => {
+    const appts = await prisma.appointment.findMany();
+    return appts;
 }
 
 export const createNewAppt = async (date: Date, type: string, comments: string, phoneNumber: string, name: string, files: File[] | null) => {

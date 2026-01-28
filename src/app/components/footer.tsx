@@ -16,6 +16,7 @@ export default function Footer() {
 
     return (
         <footer>
+            <Box sx={{mt: 10}}>
             <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.3)}} />
             <Container maxWidth='lg'>
                 <Grid container sx={{mt: 3}}>
@@ -43,6 +44,7 @@ export default function Footer() {
                     </Grid>
                 </Grid>
             </Container>
+            </Box>
         </footer>
     );
 }

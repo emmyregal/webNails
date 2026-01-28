@@ -1,9 +1,16 @@
+'use client'
+
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { TimePickerProps } from '@mui/x-date-pickers/TimePicker';
+import { useEffect, useState } from 'react';
+import { getAppointments } from './db-calls';
+// import prisma from "@/lib/prisma";
+import { Appointment } from '../../../generated/prisma/client';
+import { dayjsLocalizer } from 'react-big-calendar';
 
 
 interface durations {
@@ -17,34 +24,51 @@ const typeDurations: durations = {
   gel: 1.5,    // 1.5 hour time slot for gel set 
 };
 
-const timePadding = 15; //minutes
+export const timePadding = 15; //minutes
 export const minTime = dayjs().set('hour', 7).startOf('hour');
 export const maxTime = dayjs().set('hour', 19).startOf('hour');
 
 
-const RenderCalandar = ({ setSelectedDate, selectedType, submissionFailed, selectedDate }: { setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs | null>>, selectedType: string, submissionFailed: boolean, selectedDate: Dayjs | null }) => {
+const Picker = ({ setSelectedDate, selectedType, submissionFailed, selectedDate }: { setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs | null>>, selectedType: string, submissionFailed: boolean, selectedDate: Dayjs | null }) => {
+  const [appointments, setAppointments] = useState<Appointment[]>([]); // replace this later w/ a cleaner solution (less api calls)
+      useEffect(() => {
+          const fetchAppointments = async () => {
+              const appts = await getAppointments()
+              setAppointments(appts);
+          }
+  
+          fetchAppointments()
+      }, [])
+
   // returns true if the time is invalid
   const shouldDisableTime: TimePickerProps['shouldDisableTime'] = (value, view) => {
-    const date = dayjs('2026-01-28T19:00');
-    const length = 90;
+    for (let i = 0; i < appointments.length; i++) {
+      const date = dayjs(appointments[i].date);
+      const length = typeDurations[appointments[i].type] * 60; //length in minutes
 
-    const ex_date = date.subtract(typeDurations[selectedType] * 60 + timePadding, 'minute');
-    const add_date = date.add(length + timePadding, 'minute');
-    const ex_length = length + ((typeDurations[selectedType]) * 60) + (timePadding * 2);
+      const ex_date = date.subtract(typeDurations[selectedType] * 60 + timePadding, 'minute');
+      const add_date = date.add(length + timePadding, 'minute');
+      const ex_length = length + ((typeDurations[selectedType]) * 60) + (timePadding * 2);
 
-    // validate hours: 
-    if (view == 'hours' && value.hour() > ex_date.hour() && value.hour() < add_date.hour()) {
-      if (value.diff(ex_date, 'hour') < 24 && value.diff(ex_date, 'hour') >= 0) {
+      // validate hours: 
+      if (view == 'hours' && value.hour() > ex_date.hour() && value.hour() < add_date.hour()) {
+        if (value.diff(ex_date, 'hour') < 24 && value.diff(ex_date, 'hour') >= 0) {
+          return true;
+        }
+      }
+
+      // validate minutes: 
+      const minuteDiff = value.diff(ex_date, 'minute');
+      if (view === 'minutes' && minuteDiff > 0 && minuteDiff < ex_length) {
         return true;
       }
+
     }
 
-    // validate minutes: 
-    const minuteDiff = value.diff(ex_date, 'minute');
-    if (view === 'minutes' && minuteDiff > 0 && minuteDiff < ex_length) {
-      return true;
-    }
+    // const date = dayjs('2026-01-28T19:00');
+    // const length = 90;
     return false; // 'value' is a valid date/time
+
   };
 
   const isWeekend = (date: Dayjs) => {
@@ -52,6 +76,41 @@ const RenderCalandar = ({ setSelectedDate, selectedType, submissionFailed, selec
 
     return day === 0 || day === 6 || date < dayjs();
   };
+
+  const validateTime = (value: dayjs.Dayjs | null) => {
+    if (value == null) {
+      return false;
+    }
+    if (value.hour() < minTime.hour() || value.hour() > maxTime.hour()) {
+      return true;
+    }
+    for (let i = 0; i < appointments.length; i++) {
+      const date = dayjs(appointments[i].date);
+      const length = typeDurations[appointments[i].type] * 60; //length in minutes
+
+      const ex_date = date.subtract(typeDurations[selectedType] * 60 + timePadding, 'minute');
+      const add_date = date.add(length + timePadding, 'minute');
+      const ex_length = length + ((typeDurations[selectedType]) * 60) + (timePadding * 2);
+
+      // validate hours: 
+      if (value.hour() > ex_date.hour() && value.hour() < add_date.hour()) {
+        if (value.diff(ex_date, 'hour') < 24 && value.diff(ex_date, 'hour') >= 0) {
+          return true;
+        }
+      }
+
+      // validate minutes: 
+      const minuteDiff = value.diff(ex_date, 'minute');
+      if ( minuteDiff > 0 && minuteDiff < ex_length) {
+        return true;
+      }
+
+    }
+
+    // const date = dayjs('2026-01-28T19:00');
+    // const length = 90;
+    return false; // 'value' is a valid date/time
+  }
 
   if (selectedType.length == 0) {
     return (
@@ -94,8 +153,8 @@ const RenderCalandar = ({ setSelectedDate, selectedType, submissionFailed, selec
               name='Date'
               slotProps={{
                 textField: {
-                  error: submissionFailed && !selectedDate,
-                  helperText: !selectedDate && submissionFailed ? 'This field is required' : '',
+                  error: submissionFailed && !selectedDate || validateTime(selectedDate),
+                  helperText: !selectedDate && submissionFailed || validateTime(selectedDate) ? 'Please select a valid time' : '',
                   sx: {
                     fontFamily: 'quicksand'
                   }
@@ -124,4 +183,4 @@ const RenderCalandar = ({ setSelectedDate, selectedType, submissionFailed, selec
   }
 }
 
-export default RenderCalandar;
+export default Picker;

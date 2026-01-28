@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { alpha } from '@mui/material';
 import theme from '../theme';
 
@@ -16,18 +16,23 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Chip from '@mui/material/Chip';
 import { createNewAppt } from '../components/db-calls';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 import CalandarDialog from '../components/calendar-dialog';
-import {DialogContentText} from '@mui/material';
+import { DialogContentText } from '@mui/material';
 
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; // ⬅️ add this
 import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import Picker from '../components/date-time-picker';
+import { Appointment } from '../../../generated/prisma/client';
+import { getAppointments } from '../components/db-calls';
+import { timePadding, minTime, maxTime } from '../components/date-time-picker';
+
 
 
 export default function Booking() {
@@ -42,7 +47,50 @@ export default function Booking() {
     const [submitLoading, setSubmitLoading] = React.useState(false)
     const [finalDialogOpen, setFinalDialogOpen] = React.useState(false);
     const [databaseConnSuccessfull, setDBC] = React.useState(false);
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            const appts = await getAppointments()
+            setAppointments(appts);
+        }
 
+        fetchAppointments()
+    }, [])
+
+    const validateTime = (value: dayjs.Dayjs | null) => {
+        if (value == null) {
+            return false;
+        }
+        if (value.hour() < minTime.hour() || value.hour() > maxTime.hour()) {
+            return true;
+        }
+        for (let i = 0; i < appointments.length; i++) {
+            const date = dayjs(appointments[i].date);
+            const length = typeDurations[appointments[i].type] * 60; //length in minutes
+
+            const ex_date = date.subtract(typeDurations[selectedType] * 60 + timePadding, 'minute');
+            const add_date = date.add(length + timePadding, 'minute');
+            const ex_length = length + ((typeDurations[selectedType]) * 60) + (timePadding * 2);
+
+            // validate hours: 
+            if (value.hour() > ex_date.hour() && value.hour() < add_date.hour()) {
+                if (value.diff(ex_date, 'hour') < 24 && value.diff(ex_date, 'hour') >= 0) {
+                    return true;
+                }
+            }
+
+            // validate minutes: 
+            const minuteDiff = value.diff(ex_date, 'minute');
+            if (minuteDiff > 0 && minuteDiff < ex_length) {
+                return true;
+            }
+
+        }
+
+        // const date = dayjs('2026-01-28T19:00');
+        // const length = 90;
+        return false; // 'value' is a valid date/time
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -78,7 +126,7 @@ export default function Booking() {
     };
 
     const handleClickOpen = () => {
-        if (selectedType.length != 0 && selectedPhoneNumber.length != 0 && validateTel(selectedPhoneNumber) && selectedName.length != 0 && selectedDate != null) {
+        if (selectedType.length != 0 && selectedPhoneNumber.length != 0 && validateTel(selectedPhoneNumber) && selectedName.length != 0 && selectedDate != null && !validateTime(selectedDate)) {
             setSubmissionFailed(false);
             setOpen(true);
         }
@@ -225,7 +273,10 @@ export default function Booking() {
                                     Choose type of nails before date & time
                                 </Button>
                                 :
-                                <CalandarDialog setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
+                                <div>
+                                    <CalandarDialog setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
+                                    <Picker setSelectedDate={setSelectedDate} selectedType={selectedType} submissionFailed={submissionFailed} selectedDate={selectedDate} />
+                                </div>
                             }
                         </Box>
 
@@ -391,7 +442,7 @@ export default function Booking() {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {databaseConnSuccessfull? "Appointment successfully created. You'll recieve a text message with your appointment details." : "Appointment creation failed, please try again"}
+                        {databaseConnSuccessfull ? "Appointment successfully created. You'll recieve a text message with your appointment details." : "Appointment creation failed, please try again"}
                     </DialogTitle>
                     <DialogActions>
                         <Button onClick={handleFinalDialogClose}>Ok</Button>
