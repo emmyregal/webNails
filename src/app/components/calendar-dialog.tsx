@@ -39,7 +39,7 @@ export default function CalandarDialog({ setSelectedDate, selectedType, submissi
         const currEvent = []
         if (selectedDate !== null) {
             currEvent[0] = {
-                id: 0,
+                id: '0',
                 title: 'Your Appointment',
                 start: selectedDate.toDate(),
                 end: dayjs(selectedDate)
@@ -65,7 +65,7 @@ export default function CalandarDialog({ setSelectedDate, selectedType, submissi
                 <DialogTitle></DialogTitle>
                 <DialogContent>
                     <Box sx={{ height: 575 }}>
-                        {open && (<MyCalendar bgEvent={getCurrEvent()} />)}
+                        {open && (<MyCalendar bgEvent={getCurrEvent()} admin={false} />)}
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{ alignItems: 'center' }}>

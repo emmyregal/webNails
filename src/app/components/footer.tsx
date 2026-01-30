@@ -5,7 +5,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Box, Grid, Typography, Container, IconButton, Divider, Link } from '@mui/material';
+import { Box, Grid, Typography, Container, IconButton, Divider, Link, Stack } from '@mui/material';
 import Image from 'next/image';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { alpha } from '@mui/material';
@@ -16,10 +16,10 @@ export default function Footer() {
 
     return (
         <footer>
-            <Box sx={{mt: 10}}>
-            <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.3)}} />
+            {/* <Box sx={{mt: 10}}> */}
+            <Divider sx={{ color: alpha(`${theme.palette.secondary.main}`, 0.3) }} />
             <Container maxWidth='lg'>
-                <Grid container sx={{mt: 3}}>
+                <Grid container sx={{ mt: 4 }}>
                     <Grid size={4}>
                         <div>
                             <Image
@@ -28,23 +28,32 @@ export default function Footer() {
                                 width={125}
                                 height={110}
                             />
-                            <Typography sx={{color: '#b76074'}}>
+                            <Typography sx={{ color: '#b76074' }}>
                                 Nails by Adriana
                             </Typography>
-                            <IconButton sx={{color: '#b76074', ml: -1}} href='https://www.instagram.com/nailsbyadri.ana/'>
+                            <IconButton sx={{ color: '#b76074', ml: -1 }} href='https://www.instagram.com/nailsbyadri.ana/'>
                                 <InstagramIcon />
                             </IconButton>
                         </div>
                     </Grid>
                     <Grid size={8}>
-                        <Typography sx={{color: '#b76074'}}>
-                            Having troubles with this site? Feel free to reach out to the deveopers at: 
-                        </Typography>
-                        <Link href="mailto:nailsdevs@gmail.com">nailsdevs@gmail.com</Link>
+                        <Stack direction={'row'} spacing={1}>
+                            <Typography sx={{ color: '#b76074' }}>
+                                Having troubles with this site? Feel free to reach out to the deveopers at:
+                            </Typography>
+                            <Link href="mailto:nailsdevs@gmail.com">nailsdevs@gmail.com</Link>
+                        </Stack>
+
+                        <Stack direction={'row'} spacing={1} sx={{ mt: 1 }}>
+                            <Typography sx={{ color: '#b76074' }}>
+                                Site admin?
+                            </Typography>
+                            <Link href="/admin-page">Click Here</Link>
+                        </Stack>
                     </Grid>
                 </Grid>
             </Container>
-            </Box>
+            {/* </Box> */}
         </footer>
     );
 }

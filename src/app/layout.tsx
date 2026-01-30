@@ -27,9 +27,11 @@ export default function RootLayout({
 
       <body>
         <ThemeProvider theme={theme}>
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <ResponsiveAppBar />
-            {children}
+            <main style={{ flex: 1 }}>
+              {children}
+            </main>
             <Footer/>
           </div>
         </ThemeProvider>

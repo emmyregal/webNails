@@ -3,29 +3,41 @@
 import React, { Fragment, useMemo, useEffect, useState, useRef, useCallback } from 'react'
 import { Calendar, dayjsLocalizer, View, Views } from 'react-big-calendar'
 import dayjs from 'dayjs'
-import { getEvents } from '../components/db-calls';
+import { getEvents, getAdminEvents } from '../components/db-calls';
 import { minTime, maxTime } from '../components/date-time-picker';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 
 const localizer = dayjsLocalizer(dayjs)
 
 export type CalendarEvent = {
-  id: number
+  id: string
   title: string
   start: Date
   end: Date
 }
 
-export default function MyCalendar({ bgEvent }: { bgEvent: CalendarEvent[] }) {
+
+export default function MyCalendar({ bgEvent, admin }: { bgEvent: CalendarEvent[], admin: boolean }) {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [adminEvents, setAdminEvents] = useState<CalendarEvent[]>([]);
   const [date, setDate] = useState<Date>(new Date(Date.now()))
   const [view, setView] = useState<View>(Views.WEEK)
   const [loading, setLoading] = useState(false);
 
   const onView = useCallback((newView: View) => setView(newView), [setView])
   const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate])
+  const router = useRouter();
+
+
+  const handleSelectEvent = useCallback(
+    (event: CalendarEvent) => {
+      router.push(`/admin-page/view?appointment=${event.id}`);
+    },
+    [router]
+  );
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -33,6 +45,9 @@ export default function MyCalendar({ bgEvent }: { bgEvent: CalendarEvent[] }) {
       try {
         const data = await getEvents()
         setEvents(data)
+
+        const admin = await getAdminEvents()
+        setAdminEvents(admin);
       } catch (err) {
         console.error(err)
       } finally {
@@ -44,23 +59,53 @@ export default function MyCalendar({ bgEvent }: { bgEvent: CalendarEvent[] }) {
     fetchEvents()
   }, [])
 
-  const { views } = useMemo(
-    () => ({
-      views: [Views.MONTH, Views.WEEK, Views.DAY],
-    }),
-    []
-  )
+  const { views } = useMemo(() => {
+    const views: View[] = [Views.MONTH, Views.WEEK, Views.DAY];
+
+    if (admin) {
+      views.push(Views.AGENDA);
+    }
+
+    return { views };
+  }, [admin]);
 
   if (loading) {
     return (
       <Box sx={{
         display: 'flex',
-        alignItems: 'center', 
-        height: '100%',       
+        alignItems: 'center',
+        height: '100%',
         justifyContent: 'center'
       }}>
         <CircularProgress />
       </Box>
+    )
+  }
+
+  if (admin) {
+    return (
+      <div>
+        <Calendar
+          localizer={localizer}
+          events={adminEvents}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 575 }}
+          backgroundEvents={bgEvent}
+
+          min={new Date(2000, 0, 0, minTime.hour())}
+          max={new Date(2000, 0, 0, maxTime.hour() + 2)}
+
+          views={views}
+          onView={onView}
+          view={view}
+
+          onNavigate={onNavigate}
+          date={date}
+
+          onSelectEvent={handleSelectEvent}
+        />
+      </div>
     )
   }
 

@@ -27,8 +27,20 @@ export const getSpecificAppt = async (appt_id: string) => {
 export const getEvents = async () => {
     const appts = await prisma.appointment.findMany()
     return appts.map((appt, index) => ({
-        id: index,
+        id: appt.id,
         title: 'Booked',
+        start: appt.date,
+        end: dayjs(appt.date)
+            .add(typeDurations[appt.type], 'hours')
+            .toDate(),
+    }))
+}
+
+export const getAdminEvents = async () => {
+    const appts = await prisma.appointment.findMany()
+    return appts.map((appt, index) => ({
+        id: appt.id,
+        title: appt.name? appt.name: '',
         start: appt.date,
         end: dayjs(appt.date)
             .add(typeDurations[appt.type], 'hours')

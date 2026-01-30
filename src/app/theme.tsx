@@ -40,6 +40,13 @@ const theme = createTheme({
         }
       }
     },
+    // MuiPaper: {
+    //   styleOverrides: {
+    //     root: {
+    //       backgroundColor: '#e7cbcf47'
+    //     }
+    //   }
+    // },
     MuiInputBase: {
       styleOverrides: {
         root: {
